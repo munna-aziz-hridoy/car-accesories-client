@@ -14,7 +14,8 @@ const Header = () => {
       <CustomLink to="/allProducts">All Products</CustomLink>
       <CustomLink to="/blogs">Blogs</CustomLink>
       <CustomLink to="/portfolio">Portfolio</CustomLink>
-      {user && <CustomLink to="/dashboard">dashboard</CustomLink>}
+      {/* {user && <CustomLink to="/dashboard">dashboard</CustomLink>} */}
+      <CustomLink to="/dashboard">dashboard</CustomLink>
 
       <li className="capitalize bg-primary  text-slate-100  duration-200 rounded-lg border-2 border-primary font-bold">
         {user ? (

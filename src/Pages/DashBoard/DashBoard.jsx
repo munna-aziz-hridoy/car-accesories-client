@@ -1,0 +1,57 @@
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+
+const DashBoard = () => {
+  return (
+    <>
+      <label htmlFor="dashboard-sidebar" className="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </label>
+
+      <div className="drawer drawer-mobile min-h-[92vh] h-fit">
+        <input
+          id="dashboard-sidebar"
+          type="checkbox"
+          className="drawer-toggle"
+        />
+        <div className="drawer-content bg-[#F1F5F9] p-5">
+          <Outlet />
+        </div>
+        <div className="drawer-side shadow-md">
+          <label htmlFor="dashboard-sidebar" className="drawer-overlay"></label>
+          <div className="w-80 bg-white ">
+            <h2 className="text-3xl font-bold text-primary capitalize px-8 py-4">
+              Dashboard
+            </h2>
+            <ul className="menu p-4 overflow-y-auto text-base-content">
+              <li className="font-medium text-accent shadow rounded-lg my-2">
+                <Link to="/dashboard">Order</Link>
+              </li>
+              <li className="font-medium text-accent shadow rounded-lg my-2">
+                <Link to="/dashboard/addreview">Add Review</Link>
+              </li>
+              <li className="font-medium text-accent shadow rounded-lg my-2">
+                <Link to="/dashboard/profile">Profile</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default DashBoard;

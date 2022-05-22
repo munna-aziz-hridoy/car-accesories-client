@@ -50,7 +50,7 @@ const Capabilities = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+      <div className="container px-3 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {serviceProcces.map((item, index) => {
           const { title, details, icon } = item;
           return (

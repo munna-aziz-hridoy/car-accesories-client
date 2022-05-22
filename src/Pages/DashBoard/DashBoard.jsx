@@ -37,14 +37,14 @@ const DashBoard = () => {
               Dashboard
             </h2>
             <ul className="menu p-4 overflow-y-auto text-base-content">
-              <li className="bg-white capitalize font-medium text-accent shadow rounded-lg my-2">
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard">Profile</Link>
               </li>
 
-              <li className="bg-white capitalize font-medium text-accent shadow rounded-lg my-2">
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard/order">Order</Link>
               </li>
-              <li className="bg-white capitalize font-medium text-accent shadow rounded-lg my-2">
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link
                   to="/dashboard/addreview
                 "
@@ -52,10 +52,10 @@ const DashBoard = () => {
                   Add Review
                 </Link>
               </li>
-              <li className="bg-white capitalize font-medium text-accent shadow rounded-lg my-2">
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard/manageOrder">manage order</Link>
               </li>
-              <li className="bg-white capitalize font-medium text-accent shadow rounded-lg my-2">
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard/addproduct">add product</Link>
               </li>
             </ul>

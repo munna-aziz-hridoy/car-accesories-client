@@ -1,15 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   return (
     <div className="h-[90vh] w-full flex justify-center items-center">
-      <div className="w-[92%] max-w-[390px] mx-auto rounded-xl shadow-md px-4 py-5 ">
+      <div className="w-[92%] max-w-[390px] mx-auto rounded-xl shadow-md px-4 py-5">
         <h2 className="text-xl font-semibold text-primary capitalize text-center mb-8">
-          login
+          Register
         </h2>
 
         <form>
+          <label className="label">
+            <span className="label-text text-gray-300 font-semibold">Name</span>
+          </label>
+          <input
+            //   {...register("email", {
+            //     required: "Please Enter Your Email",
+            //     pattern: {
+            //       value:
+            //         /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+            //       message: "Please Enter a Valid Email",
+            //     },
+            //   })}
+            type="text"
+            placeholder="Your Name"
+            className="input input-bordered input-accent w-full rounded-lg"
+          />
+
           <label className="label">
             <span className="label-text text-gray-300 font-semibold">
               Email
@@ -25,8 +42,8 @@ const Login = () => {
             //     },
             //   })}
             type="text"
-            placeholder="Your emal"
-            className="input input-bordered input-accent w-full rounded-lg"
+            placeholder="Your email"
+            className="input input-bordered  input-accent w-full rounded-lg"
           />
           {/* {errors.email ? (
               <p className="text-xs text-red-300 my-2">
@@ -67,13 +84,13 @@ const Login = () => {
             )} */}
           <input
             type="submit"
-            value="Login"
+            value="Register"
             className="text-white  border-2  bg-primary hover:bg-[#333] w-full h-11 rounded-lg mt-6 cursor-pointer duration-200 border-primary hover:border-[#333]"
           />
           <p className="font-medium text-accent capitalize text-center my-2">
-            new to car accesories?{" "}
-            <Link to="/register" className="text-neutral">
-              create new account
+            already user?{" "}
+            <Link to="/login" className="text-neutral">
+              please login
             </Link>
           </p>
         </form>
@@ -83,4 +100,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

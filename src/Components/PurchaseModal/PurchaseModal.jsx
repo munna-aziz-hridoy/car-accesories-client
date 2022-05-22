@@ -19,7 +19,7 @@ const PurchaseModal = ({ setOpenModal }) => {
             <input
               type="text"
               placeholder="Name"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
 
             <label className="label">
@@ -28,7 +28,7 @@ const PurchaseModal = ({ setOpenModal }) => {
             <input
               type="text"
               placeholder="Email"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
 
             <label className="label">
@@ -39,7 +39,7 @@ const PurchaseModal = ({ setOpenModal }) => {
             <input
               type="text"
               placeholder="Shipping Address"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
 
             <label className="label">
@@ -50,7 +50,7 @@ const PurchaseModal = ({ setOpenModal }) => {
             <input
               type="number"
               placeholder="quantity"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
 
             <input

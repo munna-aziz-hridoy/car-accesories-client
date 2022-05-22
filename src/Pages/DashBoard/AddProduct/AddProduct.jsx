@@ -15,7 +15,7 @@ const AddProduct = () => {
         <input
           type="text"
           placeholder="Name"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md  w-full"
         />
 
         <label className="label">
@@ -24,7 +24,7 @@ const AddProduct = () => {
         <input
           type="number"
           placeholder="price"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md  w-full"
         />
 
         <label className="label">
@@ -35,7 +35,7 @@ const AddProduct = () => {
         <input
           type="number"
           placeholder="Available Quantity"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md w-full"
         />
 
         <label className="label">
@@ -46,7 +46,7 @@ const AddProduct = () => {
         <input
           type="number"
           placeholder="Minimum Order Quantity"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md  w-full"
         />
 
         <label className="label">
@@ -55,14 +55,14 @@ const AddProduct = () => {
         <input
           type="text"
           placeholder="Made For"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md w-full"
         />
 
         <label className="label">
           <span className="label-text capitalize text-neutral">Message</span>
         </label>
         <textarea
-          className="textarea textarea-primary w-full"
+          className="textarea textarea-accent w-full"
           placeholder="Message"
         ></textarea>
         <input

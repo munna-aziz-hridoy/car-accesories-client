@@ -15,6 +15,7 @@ const Order = () => {
               <th>Price</th>
               <th>Order Quantity</th>
               <th>Total Price</th>
+              <th>Shipping Status</th>
               <th>Transaction ID</th>
               <th>Action</th>
             </tr>
@@ -27,6 +28,7 @@ const Order = () => {
               <td>Price</td>
               <td>Order Quantity</td>
               <td>Total price</td>
+              <td>Pending</td>
               <td>Transaction ID</td>
               <td>
                 <div>

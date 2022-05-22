@@ -11,6 +11,7 @@ import Profile from "./Pages/DashBoard/Profile/Profile";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import PurchaseProduct from "./Pages/PurchaseProduct/PurchaseProduct";
+import Register from "./Pages/Register/Register";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         </Route>
         <Route path="/purchaseItem" element={<PurchaseProduct />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );

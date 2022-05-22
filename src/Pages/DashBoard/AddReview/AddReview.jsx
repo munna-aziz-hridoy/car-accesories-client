@@ -16,7 +16,7 @@ const AddReview = () => {
         <input
           type="text"
           placeholder="Name"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md w-full"
         />
         <label className="label">
           <span className="label-text capitalize text-neutral">rating</span>
@@ -25,13 +25,13 @@ const AddReview = () => {
         <input
           type="number"
           placeholder="rating"
-          className="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered input-accent rounded-md  w-full"
         />
         <label className="label">
           <span className="label-text capitalize text-neutral">Message</span>
         </label>
         <textarea
-          className="textarea textarea-primary w-full"
+          className="textarea textarea-accent w-full"
           placeholder="Message"
         ></textarea>
         <input

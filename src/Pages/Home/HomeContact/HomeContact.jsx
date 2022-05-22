@@ -54,7 +54,7 @@ const HomeContact = () => {
             <input
               type="text"
               placeholder="Email"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
             <label className="label">
               <span className="label-text capitalize text-white">Subject</span>
@@ -62,7 +62,7 @@ const HomeContact = () => {
             <input
               type="text"
               placeholder="Subject"
-              className="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered input-accent rounded-md input-primary w-full"
             />
             <label className="label">
               <span className="label-text capitalize text-white">Message</span>

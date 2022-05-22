@@ -30,26 +30,26 @@ const Profile = () => {
             </h1>
             <p className="my-4 text-primary font-semibold capitalize text-lg">
               email:{"  "}
-              <span className="text-accent text-xl font-bold">
+              <span className="text-accent text-sm sm:text-xl  font-bold">
                 {user.email}
               </span>
             </p>
             <p className="my-4 text-primary font-semibold capitalize text-lg">
               phone:{"  "}
-              <span className="text-accent text-xl font-bold">
+              <span className="text-accent text-sm sm:text-xl  font-bold">
                 {user.phone}
               </span>
             </p>
 
             <p className="my-4 text-primary font-semibold capitalize text-lg">
               address:{"  "}
-              <span className="text-accent text-xl font-bold">
+              <span className="text-accent text-sm sm:text-xl  font-bold">
                 {user.address}
               </span>
             </p>
             <p className="my-4 text-primary font-semibold capitalize text-lg">
               country:{"  "}
-              <span className="text-accent text-xl font-bold">
+              <span className="text-accent text-sm sm:text-xl  font-bold">
                 {user.country}
               </span>
             </p>
@@ -58,7 +58,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mt-20">
         <h2 className="text-2xl font-bold text-neutral my-10 capitalize">
           Purchase History
         </h2>

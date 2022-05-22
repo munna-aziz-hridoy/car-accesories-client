@@ -12,10 +12,10 @@ const ManageOrder = () => {
             <tr>
               <th></th>
               <th>Product</th>
-              <th>Price</th>
               <th>Order Quantity</th>
               <th>Total Price</th>
               <th>User</th>
+              <th>Pay Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -24,10 +24,10 @@ const ManageOrder = () => {
             <tr className="hover">
               <th> 1</th>
               <td>Product</td>
-              <td>Price</td>
               <td>Order Quantity</td>
               <td>Total price</td>
               <td>munna.aziz.hridoy@gmail.com</td>
+              <td>unpaid</td>
               <td>
                 <div>
                   <button className="btn btn-xs border-green-600 font-semibold px-2 bg-green-600 text-white capitalize rounded-lg">

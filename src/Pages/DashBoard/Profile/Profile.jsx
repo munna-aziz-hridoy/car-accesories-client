@@ -14,47 +14,47 @@ const Profile = () => {
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-10 capitalize">
         My Profile
       </h2>
-      <div class="hero">
-        <div class="hero-content flex-col lg:flex-row gap-10">
+      <div className="hero">
+        <div className="hero-content flex-col lg:flex-row gap-10">
           <div className="w-full lg:w-1/2 rounded-full p-3 bg-white">
             <img
               src={user.image}
-              class="w-full rounded-full shadow-2xl"
+              className="w-full rounded-full shadow-2xl"
               alt=""
             />
           </div>
           <div className="w-full lg:w-1/2">
-            <h1 class="text-3xl font-bold capitalize my-7">
+            <h1 className="text-3xl font-bold capitalize my-7">
               <span className="text-accent">name: </span>
               {user.name}
             </h1>
-            <p class="my-4 text-primary font-semibold capitalize text-lg">
+            <p className="my-4 text-primary font-semibold capitalize text-lg">
               email:{"  "}
               <span className="text-accent text-xl font-bold">
                 {user.email}
               </span>
             </p>
-            <p class="my-4 text-primary font-semibold capitalize text-lg">
+            <p className="my-4 text-primary font-semibold capitalize text-lg">
               phone:{"  "}
               <span className="text-accent text-xl font-bold">
                 {user.phone}
               </span>
             </p>
 
-            <p class="my-4 text-primary font-semibold capitalize text-lg">
+            <p className="my-4 text-primary font-semibold capitalize text-lg">
               address:{"  "}
               <span className="text-accent text-xl font-bold">
                 {user.address}
               </span>
             </p>
-            <p class="my-4 text-primary font-semibold capitalize text-lg">
+            <p className="my-4 text-primary font-semibold capitalize text-lg">
               country:{"  "}
               <span className="text-accent text-xl font-bold">
                 {user.country}
               </span>
             </p>
 
-            <button class="btn btn-primary my-10">update profile</button>
+            <button className="btn btn-primary my-10">update profile</button>
           </div>
         </div>
       </div>

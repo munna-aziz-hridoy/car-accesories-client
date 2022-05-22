@@ -53,7 +53,7 @@ const HomeProducts = () => {
         ))}
       </div>
       <div className="flex justify-center items-center my-16">
-        <button class="btn btn-outline text-primary capitalize px-12">
+        <button className="btn btn-outline text-primary capitalize px-12">
           all products
         </button>
       </div>

@@ -10,28 +10,28 @@ const AddReview = () => {
         add a review
       </h2>
       <form onSubmit={handleSubmit}>
-        <label class="label">
-          <span class="label-text capitalize text-neutral">your name</span>
+        <label className="label">
+          <span className="label-text capitalize text-neutral">your name</span>
         </label>
         <input
           type="text"
           placeholder="Name"
-          class="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered rounded-md input-primary w-full"
         />
-        <label class="label">
-          <span class="label-text capitalize text-neutral">rating</span>
+        <label className="label">
+          <span className="label-text capitalize text-neutral">rating</span>
         </label>
 
         <input
           type="number"
           placeholder="rating"
-          class="input input-bordered rounded-md input-primary w-full"
+          className="input input-bordered rounded-md input-primary w-full"
         />
-        <label class="label">
-          <span class="label-text capitalize text-neutral">Message</span>
+        <label className="label">
+          <span className="label-text capitalize text-neutral">Message</span>
         </label>
         <textarea
-          class="textarea textarea-primary w-full"
+          className="textarea textarea-primary w-full"
           placeholder="Message"
         ></textarea>
         <input

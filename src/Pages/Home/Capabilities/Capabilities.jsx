@@ -33,16 +33,18 @@ const serviceProcces = [
 const Capabilities = () => {
   return (
     <div className="my-32">
-      <div class="hero  bg-base-100">
-        <div class="hero-content flex-col-reverse lg:flex-row gap-16">
+      <div className="hero  bg-base-100">
+        <div className="hero-content flex-col-reverse lg:flex-row gap-16">
           <img
             src={capabilities}
-            class="w-full lg:w-1/2 rounded-lg shadow-2xl"
+            className="w-full lg:w-1/2 rounded-lg shadow-2xl"
             alt=""
           />
           <div className="w-full lg:w-1/2">
-            <h1 class="text-5xl font-bold text-neutral">Our Capabilities</h1>
-            <p class="py-6 w-1/2">
+            <h1 className="text-5xl font-bold text-neutral">
+              Our Capabilities
+            </h1>
+            <p className="py-6 w-1/2">
               Stop by today; our talented staff will be happy to help you find
               what you’re searching for!
               <span className="block my-3">CEO: Munna Aziz</span>
@@ -56,16 +58,16 @@ const Capabilities = () => {
           return (
             <div
               key={index}
-              class="card bg-white hover:bg-primary hover:text-white shadow-lg duration-300 hover:-translate-y-5 hover:shadow-2xl service-proccess-card"
+              className="card bg-white hover:bg-primary hover:text-white shadow-lg duration-300 hover:-translate-y-5 hover:shadow-2xl service-proccess-card"
             >
-              <figure class="px-10 pt-10">
+              <figure className="px-10 pt-10">
                 <FontAwesomeIcon
                   className="text-5xl text-primary"
                   icon={icon}
                 />
               </figure>
-              <div class="card-body items-center text-center">
-                <h2 class="card-title">{title}</h2>
+              <div className="card-body items-center text-center">
+                <h2 className="card-title">{title}</h2>
                 <p>{details}</p>
               </div>
             </div>

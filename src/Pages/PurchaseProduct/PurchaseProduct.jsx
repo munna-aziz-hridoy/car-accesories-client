@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../Components/Footer/Footer";
+import PurchaseModal from "../../Components/PurchaseModal/PurchaseModal";
 const product = {
   name: "D/76 model engine",
   image: "https://i.ibb.co/FHD85g1/31.jpg",
@@ -11,6 +12,7 @@ const product = {
   madeFor: ["all D/76 chesis"],
 };
 const PurchaseProduct = () => {
+  const [openModal, setOpenModal] = useState(false);
   const {
     name,
     image,
@@ -49,22 +51,16 @@ const PurchaseProduct = () => {
               ))}
             </p>
           </div>
-          <form className="flex flex-col md:flex-row justify-start items-start md:items-center gap-3 mt-6">
-            <input
-              type="number"
-              name="quantity"
-              id="quantity"
-              placeholder="Order Quantity"
-              className="p-3 rounded-lg my-2 border-primary border-2 placeholder:text-lg placeholder:text-medium placeholder:text-primary placeholder:capitalize text-lg ptext-medium text-primary capitalize"
-            />
-            <input
-              type="submit"
-              value="Order Now"
-              className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary my-3"
-            />
-          </form>
+          <label
+            onClick={() => setOpenModal(true)}
+            htmlFor="purchase-modal"
+            className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary my-5 inline-block"
+          >
+            Order Now
+          </label>
         </div>
       </div>
+      {openModal && <PurchaseModal setOpenModal={setOpenModal} />}
       <Footer />
     </>
   );

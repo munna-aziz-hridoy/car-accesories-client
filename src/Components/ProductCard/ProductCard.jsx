@@ -2,12 +2,12 @@ import React from "react";
 
 const ProductCard = ({ product }) => {
   return (
-    <div class="card card-compact bg-base-100 hover:bg-white shadow hover:-translate-y-8 border-8 border-transparent hover:border-primary hover:shadow-2xl hover:shadow-[#ff075541] duration-300">
+    <div className="card card-compact bg-base-100 hover:bg-white shadow hover:-translate-y-8 border-8 border-transparent hover:border-primary hover:shadow-2xl hover:shadow-[#ff075541] duration-300">
       <div className="p-5">
         <img src={product.image} alt="Shoes" className="w-full rounded-lg" />
       </div>
-      <div class="card-body mt-3">
-        <h2 class="card-title font-bold text-neutral capitalize">
+      <div className="card-body mt-3">
+        <h2 className="card-title font-bold text-neutral capitalize">
           {product.name}
         </h2>
         <div className="w-32 h-1 rounded-3xl bg-primary"></div>
@@ -39,8 +39,8 @@ const ProductCard = ({ product }) => {
             <span key={index}>{item}, </span>
           ))}
         </p>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary text-white hover:bg-[#333] hover:text-white px-8">
+        <div className="card-actions justify-end">
+          <button className="btn btn-primary text-white hover:bg-[#333] hover:text-white px-8">
             Order Now
           </button>
         </div>

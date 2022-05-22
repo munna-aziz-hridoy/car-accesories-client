@@ -46,27 +46,29 @@ const HomeContact = () => {
             Send us a message
           </h2>
           <form>
-            <label class="label">
-              <span class="label-text capitalize text-white">your email</span>
+            <label className="label">
+              <span className="label-text capitalize text-white">
+                your email
+              </span>
             </label>
             <input
               type="text"
               placeholder="Email"
-              class="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered rounded-md input-primary w-full"
             />
-            <label class="label">
-              <span class="label-text capitalize text-white">Subject</span>
+            <label className="label">
+              <span className="label-text capitalize text-white">Subject</span>
             </label>
             <input
               type="text"
               placeholder="Subject"
-              class="input input-bordered rounded-md input-primary w-full"
+              className="input input-bordered rounded-md input-primary w-full"
             />
-            <label class="label">
-              <span class="label-text capitalize text-white">Message</span>
+            <label className="label">
+              <span className="label-text capitalize text-white">Message</span>
             </label>
             <textarea
-              class="textarea textarea-primary w-full"
+              className="textarea textarea-primary w-full"
               placeholder="Message"
             ></textarea>
             <input

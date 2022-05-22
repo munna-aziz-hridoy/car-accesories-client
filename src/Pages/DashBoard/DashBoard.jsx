@@ -21,18 +21,18 @@ const DashBoard = () => {
         </svg>
       </label>
 
-      <div className="drawer drawer-mobile min-h-[92vh] h-fit">
+      <div className="drawer drawer-mobile  h-fit">
         <input
           id="dashboard-sidebar"
           type="checkbox"
           className="drawer-toggle"
         />
-        <div className="drawer-content bg-[#F1F5F9] p-5">
+        <div className="drawer-content bg-base-100 p-5">
           <Outlet />
         </div>
-        <div className="drawer-side shadow-md">
+        <div className="drawer-side">
           <label htmlFor="dashboard-sidebar" className="drawer-overlay"></label>
-          <div className="w-80 bg-white ">
+          <div className="w-80 bg-base-100 ">
             <h2 className="text-3xl font-bold text-primary capitalize px-8 py-4">
               Dashboard
             </h2>
@@ -41,7 +41,12 @@ const DashBoard = () => {
                 <Link to="/dashboard">Order</Link>
               </li>
               <li className="font-medium text-accent shadow rounded-lg my-2">
-                <Link to="/dashboard/addreview">Add Review</Link>
+                <Link
+                  to="/dashboard/addreview
+                "
+                >
+                  Add Review
+                </Link>
               </li>
               <li className="font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard/profile">Profile</Link>

@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import AllProducts from "./Pages/AllProducts/AllProducts";
+import AddReview from "./Pages/DashBoard/AddReview/AddReview";
 import DashBoard from "./Pages/DashBoard/DashBoard";
 import Order from "./Pages/DashBoard/Order/Order";
 import Home from "./Pages/Home/Home";
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/allProducts" element={<AllProducts />} />
         <Route path="/dashboard" element={<DashBoard />}>
           <Route index element={<Order />} />
+          <Route path="addreview" element={<AddReview />} />
         </Route>
         <Route path="/purchaseItem" element={<PurchaseProduct />} />
       </Routes>

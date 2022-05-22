@@ -72,7 +72,7 @@ const Reviews = () => {
         </Swiper>
       </div>
       <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {reviews.slice(0, 3).map((review, index) => {
+        {reviews.map((review, index) => {
           const { name, text, rating, image } = review;
           return (
             <SwiperSlide key={index}>

@@ -15,6 +15,7 @@ const Order = () => {
               <th>Price</th>
               <th>Order Quantity</th>
               <th>Total Price</th>
+              <th>Transaction ID</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -26,6 +27,7 @@ const Order = () => {
               <td>Price</td>
               <td>Order Quantity</td>
               <td>Total price</td>
+              <td>Transaction ID</td>
               <td>
                 <div>
                   <button className="btn btn-xs border-green-600 font-semibold px-2 bg-green-600 text-white capitalize rounded-lg">

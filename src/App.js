@@ -4,6 +4,7 @@ import Header from "./Components/Header/Header";
 import AllProducts from "./Pages/AllProducts/AllProducts";
 import AddReview from "./Pages/DashBoard/AddReview/AddReview";
 import DashBoard from "./Pages/DashBoard/DashBoard";
+import ManageOrder from "./Pages/DashBoard/ManageOrder/ManageOrder";
 import Order from "./Pages/DashBoard/Order/Order";
 import Profile from "./Pages/DashBoard/Profile/Profile";
 import Home from "./Pages/Home/Home";
@@ -17,9 +18,11 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/allProducts" element={<AllProducts />} />
         <Route path="/dashboard" element={<DashBoard />}>
-          <Route index element={<Order />} />
+          <Route index element={<Profile />} />
           <Route path="addreview" element={<AddReview />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="order" element={<Order />} />
+          <Route path="manageOrder" element={<ManageOrder />} />
+          <Route path="addproduct" element={<Order />} />
         </Route>
         <Route path="/purchaseItem" element={<PurchaseProduct />} />
       </Routes>

@@ -5,6 +5,7 @@ import AllProducts from "./Pages/AllProducts/AllProducts";
 import AddReview from "./Pages/DashBoard/AddReview/AddReview";
 import DashBoard from "./Pages/DashBoard/DashBoard";
 import Order from "./Pages/DashBoard/Order/Order";
+import Profile from "./Pages/DashBoard/Profile/Profile";
 import Home from "./Pages/Home/Home";
 import PurchaseProduct from "./Pages/PurchaseProduct/PurchaseProduct";
 
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/dashboard" element={<DashBoard />}>
           <Route index element={<Order />} />
           <Route path="addreview" element={<AddReview />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/purchaseItem" element={<PurchaseProduct />} />
       </Routes>

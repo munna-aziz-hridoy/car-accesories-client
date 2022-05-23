@@ -5,6 +5,7 @@ import {
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import Spinner from "../../Components/Spinner/Spinner";
 import auth from "../../firebase.init";
 
@@ -118,6 +119,7 @@ const Login = () => {
           </p>
         </form>
         <div className="divider mt-10">OR</div>
+        <SocialLogin />
       </div>
     </div>
   );

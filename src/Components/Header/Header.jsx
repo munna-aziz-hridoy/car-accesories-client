@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import CustomLink from "../CustomLink/CustomLink";
+import demoUserPhoto from "../../Assets/images/profile.png";
 
 const Header = () => {
+  const [openInfo, setOpenInfo] = useState(false);
   const [user] = useAuthState(auth);
+
+  const profilePhoto = user?.photoURL || demoUserPhoto;
 
   const menuItems = (
     <>
@@ -14,21 +18,35 @@ const Header = () => {
       <CustomLink to="/allProducts">All Products</CustomLink>
       <CustomLink to="/blogs">Blogs</CustomLink>
       <CustomLink to="/portfolio">Portfolio</CustomLink>
-      {/* {user && <CustomLink to="/dashboard">dashboard</CustomLink>} */}
-      <CustomLink to="/dashboard">dashboard</CustomLink>
+      {user && <CustomLink to="/dashboard">dashboard</CustomLink>}
 
       <li className="capitalize bg-primary  text-slate-100  duration-200 rounded-lg border-2 border-primary font-bold">
         {user ? (
           <div>
-            <div className="bg-slate-200 w-[40px] h-[40px] rounded-full p-1 flex justify-center items-center cursor-pointer">
-              <img src="" alt="" className="rounded-full" />
+            <div className="relative">
+              <div
+                onClick={() => setOpenInfo(!openInfo)}
+                className="bg-slate-200 w-[45px] h-[45px] rounded-full p-1 flex justify-center items-center cursor-pointer"
+              >
+                <img src={profilePhoto} alt="" className="rounded-full" />
+              </div>
+              <div
+                className={`${
+                  openInfo ? "flex" : "hidden"
+                } absolute flex-col justify-center items-center gap-5 p-6 rounded-lg bg-base-100 shadow-lg top-16 -left-6`}
+              >
+                <p className="text-xl font-bold text-neutral capitalize">
+                  name
+                </p>
+                <p className="font-semibold text-accent capitalize">
+                  name@email.com
+                </p>
+              </div>
             </div>
-            <p>Name</p>
             <p
-              className="capitalize  w-full"
+              className="capitalize  w-full ml-3"
               onClick={() => {
                 signOut(auth);
-                localStorage.removeItem("accessToken");
               }}
             >
               sign out

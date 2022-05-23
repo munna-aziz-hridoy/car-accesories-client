@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./Components/Header/Header";
+import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import AllProducts from "./Pages/AllProducts/AllProducts";
 import AddProduct from "./Pages/DashBoard/AddProduct/AddProduct";
 import AddReview from "./Pages/DashBoard/AddReview/AddReview";
@@ -20,14 +21,28 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="/dashboard" element={<DashBoard />}>
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <DashBoard />
+            </RequireAuth>
+          }
+        >
           <Route index element={<Profile />} />
           <Route path="addreview" element={<AddReview />} />
           <Route path="order" element={<Order />} />
           <Route path="manageOrder" element={<ManageOrder />} />
           <Route path="addproduct" element={<AddProduct />} />
         </Route>
-        <Route path="/purchaseItem" element={<PurchaseProduct />} />
+        <Route
+          path="/purchaseItem"
+          element={
+            <RequireAuth>
+              <PurchaseProduct />
+            </RequireAuth>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

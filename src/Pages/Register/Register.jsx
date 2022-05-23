@@ -13,9 +13,9 @@ const Register = () => {
   const [user, loading] = useAuthState(auth);
   const [
     createUserWithEmailAndPassword,
-    signInUser,
-    signInLoading,
-    signInError,
+    signUpUser,
+    signUpLoading,
+    signUpError,
   ] = useCreateUserWithEmailAndPassword(auth);
   const [updateProfile] = useUpdateProfile(auth);
 
@@ -29,7 +29,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleSignIn = (data) => {
+  const handlesignUp = (data) => {
     const { name, email, password } = data;
 
     createUserWithEmailAndPassword(email, password).then(() =>
@@ -39,11 +39,11 @@ const Register = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  if (loading || signInLoading) {
+  if (loading || signUpLoading) {
     return <Spinner />;
   }
 
-  if (user || signInUser) {
+  if (user || signUpUser) {
     navigate(from);
     return;
   }
@@ -55,7 +55,7 @@ const Register = () => {
           Register
         </h2>
 
-        <form onSubmit={handleSubmit(handleSignIn)}>
+        <form onSubmit={handleSubmit(handlesignUp)}>
           <label className="label">
             <span className="label-text text-gray-300 font-semibold">Name</span>
           </label>
@@ -125,9 +125,9 @@ const Register = () => {
           <p className="capitalize text-neutral font-medium text-xs mt-5">
             forgot password?
           </p>
-          {signInError ? (
+          {signUpError ? (
             <p className="text-xs text-red-300">
-              {signInError?.message.split("/")[1]}
+              {signUpError?.message.split("/")[1]}
             </p>
           ) : (
             ""

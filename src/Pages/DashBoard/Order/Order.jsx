@@ -1,8 +1,10 @@
 import React from "react";
+import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 
 const Order = () => {
   return (
     <>
+      <CustomTitle page="Order" />
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-10 capitalize">
         My all order
       </h2>

@@ -1,8 +1,10 @@
 import React from "react";
+import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 
 const AddProduct = () => {
   return (
     <div>
+      <CustomTitle page="Add Product" />
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-20 capitalize">
         add a product
       </h2>

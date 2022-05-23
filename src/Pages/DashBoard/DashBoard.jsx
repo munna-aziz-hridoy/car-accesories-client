@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 
 const DashBoard = () => {
   return (
     <>
+      <CustomTitle page="Dashboard" />
       <label htmlFor="dashboard-sidebar" className="btn btn-ghost lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"

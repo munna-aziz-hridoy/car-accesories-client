@@ -1,4 +1,5 @@
 import React from "react";
+import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 import Footer from "../../Components/Footer/Footer";
 import BusinessSummury from "./BusinessSummury/BusinessSummury";
 import Capabilities from "./Capabilities/Capabilities";
@@ -10,6 +11,7 @@ import Reviews from "./Reviews/Reviews";
 const Home = () => {
   return (
     <>
+      <CustomTitle page="Home" />
       <HomeBanner />
       <Capabilities />
       <HomeProducts />

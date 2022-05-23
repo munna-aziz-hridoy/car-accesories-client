@@ -1,7 +1,53 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Spinner from "../../Components/Spinner/Spinner";
+import auth from "../../firebase.init";
 
 const Register = () => {
+  const [user, loading] = useAuthState(auth);
+  const [
+    createUserWithEmailAndPassword,
+    signInUser,
+    signInLoading,
+    signInError,
+  ] = useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile] = useUpdateProfile(auth);
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSignIn = (data) => {
+    const { name, email, password } = data;
+
+    createUserWithEmailAndPassword(email, password).then(() =>
+      updateProfile({ displayName: name }).then(() => reset())
+    );
+  };
+
+  const from = location.state?.from?.pathname || "/";
+
+  if (loading || signInLoading) {
+    return <Spinner />;
+  }
+
+  if (user || signInUser) {
+    navigate(from);
+    return;
+  }
+
   return (
     <div className="h-[90vh] w-full flex justify-center items-center">
       <div className="w-[92%] max-w-[390px] mx-auto rounded-xl shadow-md px-4 py-5">
@@ -9,23 +55,23 @@ const Register = () => {
           Register
         </h2>
 
-        <form>
+        <form onSubmit={handleSubmit(handleSignIn)}>
           <label className="label">
             <span className="label-text text-gray-300 font-semibold">Name</span>
           </label>
           <input
-            //   {...register("email", {
-            //     required: "Please Enter Your Email",
-            //     pattern: {
-            //       value:
-            //         /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-            //       message: "Please Enter a Valid Email",
-            //     },
-            //   })}
+            {...register("name", {
+              required: "Please Enter Your Name",
+            })}
             type="text"
             placeholder="Your Name"
             className="input input-bordered input-accent w-full rounded-lg"
           />
+          {errors.name ? (
+            <p className="text-xs text-red-300 my-2">{errors?.name?.message}</p>
+          ) : (
+            ""
+          )}
 
           <label className="label">
             <span className="label-text text-gray-300 font-semibold">
@@ -33,55 +79,59 @@ const Register = () => {
             </span>
           </label>
           <input
-            //   {...register("email", {
-            //     required: "Please Enter Your Email",
-            //     pattern: {
-            //       value:
-            //         /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-            //       message: "Please Enter a Valid Email",
-            //     },
-            //   })}
+            {...register("email", {
+              required: "Please Enter Your Email",
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: "Please Enter a Valid Email",
+              },
+            })}
             type="text"
             placeholder="Your email"
             className="input input-bordered  input-accent w-full rounded-lg"
           />
-          {/* {errors.email ? (
-              <p className="text-xs text-red-300 my-2">
-                {errors?.email?.message}
-              </p>
-            ) : (
-              ""
-            )} */}
+          {errors.email ? (
+            <p className="text-xs text-red-300 my-2">
+              {errors?.email?.message}
+            </p>
+          ) : (
+            ""
+          )}
           <label className="label">
             <span className="label-text text-gray-300 font-semibold">
               Password
             </span>
           </label>
           <input
-            //   {...register("password", {
-            //     required: "Please Enter Your Password", // JS only: <p>error message</p> TS only support string
-            //   })}
+            {...register("password", {
+              required: "Please Enter Your Password",
+              pattern: {
+                value: /^(?=.*\d).{6,}$/,
+                message: "Password must be at least 6 character",
+              },
+            })}
             type="password"
             placeholder="Your password"
             className="input input-bordered input-accent  w-full rounded-lg"
           />
-          {/* {errors.password ? (
-              <p className="text-xs text-red-300 my-2">
-                {errors?.password?.message}
-              </p>
-            ) : (
-              ""
-            )} */}
+          {errors.password ? (
+            <p className="text-xs text-red-300 my-2">
+              {errors?.password?.message}
+            </p>
+          ) : (
+            ""
+          )}
           <p className="capitalize text-neutral font-medium text-xs mt-5">
             forgot password?
           </p>
-          {/* {loggedInError ? (
-              <p className="text-xs text-red-300">
-                {loggedInError.message.split("/")[1]}
-              </p>
-            ) : (
-              ""
-            )} */}
+          {signInError ? (
+            <p className="text-xs text-red-300">
+              {signInError?.message.split("/")[1]}
+            </p>
+          ) : (
+            ""
+          )}
           <input
             type="submit"
             value="Register"

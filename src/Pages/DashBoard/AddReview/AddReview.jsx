@@ -1,9 +1,37 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddReview = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [user] = useAuthState(auth);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const userImg =
+    user?.photoURL ||
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+
+  const handleAddReview = (data) => {
+    const rating = data.rating;
+    if (rating < 0 || rating > 5) {
+      toast.error("Please enter a value between 0 to 5");
+      return;
+    }
+
+    const review = { ...data, image: userImg, name: user?.displayName };
+    console.log(review);
+    axios.post("http://localhost:5000/reviews", { ...review }).then((data) => {
+      toast.success("Your Review has been successfully posted");
+      reset();
+    });
   };
   return (
     <>
@@ -12,15 +40,16 @@ const AddReview = () => {
         <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-20 capitalize">
           add a review
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleAddReview)}>
           <label className="label">
             <span className="label-text capitalize text-neutral">
               your name
             </span>
           </label>
           <input
+            value={user?.displayName}
+            disabled
             type="text"
-            placeholder="Name"
             className="input input-bordered input-accent rounded-md w-full"
           />
           <label className="label">
@@ -28,14 +57,23 @@ const AddReview = () => {
           </label>
 
           <input
+            {...register("rating", { required: "Rating is require" })}
             type="number"
             placeholder="rating"
             className="input input-bordered input-accent rounded-md  w-full"
           />
+          {errors.rating ? (
+            <p className="text-xs text-red-300 my-2">
+              {errors?.rating?.message}
+            </p>
+          ) : (
+            ""
+          )}
           <label className="label">
             <span className="label-text capitalize text-neutral">Message</span>
           </label>
           <textarea
+            {...register("text")}
             className="textarea textarea-accent w-full"
             placeholder="Message"
           ></textarea>

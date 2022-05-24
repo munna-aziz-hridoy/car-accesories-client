@@ -9,11 +9,13 @@ import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import Spinner from "../../Components/Spinner/Spinner";
 import auth from "../../firebase.init";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const [user, loading] = useAuthState(auth);
-  const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
+  const [signInWithEmailAndPassword, , signInLoading, signInError] =
     useSignInWithEmailAndPassword(auth);
+  const [token] = useToken(user?.email);
 
   const {
     handleSubmit,
@@ -27,7 +29,9 @@ const Login = () => {
 
   const handleSignIn = (data) => {
     const { email, password } = data;
-    signInWithEmailAndPassword(email, password).then(() => reset());
+    signInWithEmailAndPassword(email, password).then(() => {
+      reset();
+    });
   };
 
   const from = location.state?.from?.pathname || "/";
@@ -36,7 +40,8 @@ const Login = () => {
     return <Spinner />;
   }
 
-  if (user || signInUser) {
+  if (token) {
+    localStorage.setItem("accessToken", token);
     navigate(from);
   }
 

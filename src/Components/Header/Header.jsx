@@ -47,6 +47,7 @@ const Header = () => {
               className="capitalize  w-full ml-3"
               onClick={() => {
                 signOut(auth);
+                localStorage.removeItem("accessToken");
               }}
             >
               sign out

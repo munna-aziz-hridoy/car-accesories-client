@@ -1,4 +1,5 @@
 import React from "react";
+import UpdateProfileModal from "../../../Components/UpdateProfileModal/UpdateProfileModal";
 
 const Profile = () => {
   const user = {
@@ -54,7 +55,10 @@ const Profile = () => {
               </span>
             </p>
 
-            <button className="btn btn-primary my-10">update profile</button>
+            <label htmlFor="update-profile" className="btn btn-primary my-10">
+              update profile
+            </label>
+            <UpdateProfileModal />
           </div>
         </div>
       </div>

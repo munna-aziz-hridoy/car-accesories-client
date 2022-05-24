@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import {
   useAuthState,
@@ -30,20 +31,28 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // handle sign up proccess
   const handlesignUp = (data) => {
     const { name, email, password } = data;
 
     createUserWithEmailAndPassword(email, password).then(() =>
-      updateProfile({ displayName: name }).then(() => reset())
+      updateProfile({ displayName: name }).then(() => {
+        axios
+          .put("http://localhost:5000/addUser", { name, email })
+          .then((data) => console.log(data));
+        reset();
+      })
     );
   };
 
   const from = location.state?.from?.pathname || "/";
 
+  // show spinner when loading
   if (loading || signUpLoading) {
     return <Spinner />;
   }
 
+  // redirect from register page when user available
   if (user || signUpUser) {
     navigate(from);
     return;

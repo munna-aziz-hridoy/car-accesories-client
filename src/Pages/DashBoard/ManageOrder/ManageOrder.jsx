@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
+import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
+import Spinner from "../../../Components/Spinner/Spinner";
 
 const ManageOrder = () => {
+  const serverUrl = useContext(ServerUrlContext);
+
+  const { data: orders, isLoading } = useQuery("orders", () => {
+    return fetch(`${serverUrl}/allOrders`).then((res) => res.json());
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <CustomTitle page="Manage Order" />
@@ -23,7 +36,42 @@ const ManageOrder = () => {
           </thead>
 
           <tbody>
-            <tr className="hover">
+            {orders?.map((order, index) => {
+              const { product, quantity, price, email, paid, deliveryStatus } =
+                order;
+              return (
+                <tr key={index} className="hover">
+                  <th>{index + 1}</th>
+                  <td>{product}</td>
+                  <td>{quantity}</td>
+                  <td>{price * parseFloat(quantity)}</td>
+                  <td>{email}</td>
+                  <td>
+                    {paid ? (
+                      <span className="text-green-600">Paid</span>
+                    ) : (
+                      <span className="text-red-400">Unpaid</span>
+                    )}
+                  </td>
+                  <td>
+                    <div>
+                      <button
+                        disabled={paid}
+                        className={`btn btn-xs  font-semibold px-2  text-white capitalize rounded-lg disabled:text-accent ${
+                          deliveryStatus
+                            ? "bg-green-600 border-green-600"
+                            : "bg-orange-400 border-orange-400"
+                        }`}
+                      >
+                        {deliveryStatus ? "Delivered" : "Ship now"}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+
+            {/* <tr className="hover">
               <th> 1</th>
               <td>Product</td>
               <td>Order Quantity</td>
@@ -37,7 +85,7 @@ const ManageOrder = () => {
                   </button>
                 </div>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

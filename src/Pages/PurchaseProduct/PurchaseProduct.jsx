@@ -64,7 +64,9 @@ const PurchaseProduct = () => {
           </label>
         </div>
       </div>
-      {openModal && <PurchaseModal setOpenModal={setOpenModal} />}
+      {openModal && (
+        <PurchaseModal setOpenModal={setOpenModal} product={product} />
+      )}
       <Footer />
     </>
   );

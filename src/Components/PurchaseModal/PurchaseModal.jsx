@@ -1,8 +1,50 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { ServerUrlContext } from "../..";
+import auth from "../../firebase.init";
 
-const PurchaseModal = ({ setOpenModal }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const PurchaseModal = ({ setOpenModal, product }) => {
+  const serverUrl = useContext(ServerUrlContext);
+  const [user] = useAuthState(auth);
+  const [errorText, setErrorText] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const { name, price, availableQuantity, minOrderQuantity } = product;
+
+  const handlePurchaseProduct = async (data) => {
+    if (data.quantity < minOrderQuantity || data.quantity > availableQuantity) {
+      return setErrorText(
+        `You can order at most ${availableQuantity} units and minimum ${minOrderQuantity} units`
+      );
+    }
+
+    const orderedItem = {
+      user: user?.displayName,
+      email: user?.email,
+      product: name,
+      price,
+      ...data,
+      paid: false,
+      deliveryStatus: false,
+    };
+
+    const url = `${serverUrl}/purchaseProduct`;
+
+    const { data: result } = await axios.post(url, orderedItem);
+    if (result.acknowledged) {
+      toast.success("Your order has been success fully placed");
+      reset();
+    }
+    setErrorText("");
     setOpenModal(false);
   };
   return (
@@ -16,15 +58,21 @@ const PurchaseModal = ({ setOpenModal }) => {
           >
             ✕
           </label>
-          <h2 className="font-bold text-lg">Purchase {}</h2>
+          <h2 className="font-bold text-lg">
+            Purchase <span className="text-primary">{name}</span>
+          </h2>
 
-          <form onClick={handleSubmit} className="mt-10">
+          <form
+            onSubmit={handleSubmit(handlePurchaseProduct)}
+            className="mt-10"
+          >
             <label className="label">
               <span className="label-text capitalize text-neutral">name</span>
             </label>
             <input
+              value={user?.displayName}
+              disabled
               type="text"
-              placeholder="Name"
               className="input input-bordered  rounded-md input-primary w-full"
             />
 
@@ -32,8 +80,9 @@ const PurchaseModal = ({ setOpenModal }) => {
               <span className="label-text capitalize text-neutral">email</span>
             </label>
             <input
+              value={user?.email}
+              disabled
               type="text"
-              placeholder="Email"
               className="input input-bordered  rounded-md input-primary w-full"
             />
 
@@ -43,10 +92,20 @@ const PurchaseModal = ({ setOpenModal }) => {
               </span>
             </label>
             <input
+              {...register("shippingAddress", {
+                required: "You must have to add a shipping address",
+              })}
               type="text"
               placeholder="Shipping Address"
               className="input input-bordered  rounded-md input-primary w-full"
             />
+            {errors.shippingAddress ? (
+              <p className="text-xs text-red-300 my-2">
+                {errors?.shippingAddress?.message}
+              </p>
+            ) : (
+              ""
+            )}
 
             <label className="label">
               <span className="label-text capitalize text-neutral">
@@ -54,10 +113,23 @@ const PurchaseModal = ({ setOpenModal }) => {
               </span>
             </label>
             <input
+              {...register("quantity", {
+                required: "How much unit you want to buy?",
+              })}
               type="number"
               placeholder="quantity"
               className="input input-bordered  rounded-md input-primary w-full"
             />
+            {errors.shippingAddress ? (
+              <p className="text-xs text-red-300 my-2">
+                {errors?.shippingAddress?.message}
+              </p>
+            ) : (
+              ""
+            )}
+            {errorText && (
+              <p className="text-xs text-red-300 my-2">{errorText}</p>
+            )}
 
             <input
               type="submit"

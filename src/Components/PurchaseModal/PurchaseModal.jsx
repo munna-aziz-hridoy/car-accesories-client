@@ -10,6 +10,12 @@ const PurchaseModal = ({ setOpenModal }) => {
       <input type="checkbox" id="purchase-modal" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
+          <label
+            htmlFor="purchase-modal"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
+          >
+            ✕
+          </label>
           <h2 className="font-bold text-lg">Purchase {}</h2>
 
           <form onClick={handleSubmit} className="mt-10">

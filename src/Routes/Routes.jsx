@@ -34,7 +34,7 @@ const AppRoutes = () => {
           <Route path="addproduct" element={<AddProduct />} />
         </Route>
         <Route
-          path="/purchaseItem"
+          path="/purchaseItem/:id"
           element={
             <RequireAuth>
               <PurchaseProduct />

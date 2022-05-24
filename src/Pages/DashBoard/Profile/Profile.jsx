@@ -22,7 +22,7 @@ const Profile = () => {
     data: user,
     isLoading,
     refetch,
-  } = useQuery("user", () => {
+  } = useQuery(["user", serverurl, loggedInUser], () => {
     return fetch(`${serverurl}/getProfile?email=${loggedInUser?.email}`).then(
       (res) => res.json()
     );

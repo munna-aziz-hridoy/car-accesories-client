@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { ServerUrlContext } from "../..";
 import Footer from "../../Components/Footer/Footer";
 import PurchaseModal from "../../Components/PurchaseModal/PurchaseModal";
-const product = {
-  name: "D/76 model engine",
-  image: "https://i.ibb.co/FHD85g1/31.jpg",
-  details:
-    "340 horse power engine, match with all D/76 model chesis no. Fuel efficient, made of pure metal, rpm up to 30000",
-  price: 85,
-  availableQuantity: 85000,
-  minOrderQuantity: 200,
-  madeFor: ["all D/76 chesis"],
-};
+import Spinner from "../../Components/Spinner/Spinner";
+
 const PurchaseProduct = () => {
   const [openModal, setOpenModal] = useState(false);
+  const serverUrl = useContext(ServerUrlContext);
+  const { id } = useParams();
+  const url = `${serverUrl}/singleProduct?id=${id}`;
+  const { data: product, isLoading } = useQuery(["product", url], () => {
+    return fetch(url).then((res) => res.json());
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   const {
     name,
     image,
@@ -22,6 +28,7 @@ const PurchaseProduct = () => {
     minOrderQuantity,
     madeFor,
   } = product;
+
   return (
     <>
       <div className="container p-5  mx-auto md:flex justify-between items-center gap-16 my-40">

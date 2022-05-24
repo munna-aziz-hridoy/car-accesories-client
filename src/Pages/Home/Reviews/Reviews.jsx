@@ -14,7 +14,7 @@ const Reviews = () => {
 
   useEffect(() => {
     axios.get(`${serverUrl}/reviews`).then((data) => setReviews(data.data));
-  }, []);
+  }, [serverUrl]);
 
   return (
     <div className="container px-3 mx-auto mt-44">

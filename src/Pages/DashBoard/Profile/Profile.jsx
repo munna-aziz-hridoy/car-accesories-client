@@ -9,8 +9,13 @@ import auth from "../../../firebase.init";
 const Profile = () => {
   const serverurl = useContext(ServerUrlContext);
   const [loggedInUser] = useAuthState(auth);
+  const [openModal, setOpenModal] = useState(false);
 
-  const { data: user, isLoading } = useQuery("user", () => {
+  const {
+    data: user,
+    isLoading,
+    refetch,
+  } = useQuery("user", () => {
     return fetch(`${serverurl}/getProfile?email=${loggedInUser?.email}`).then(
       (res) => res.json()
     );
@@ -65,10 +70,19 @@ const Profile = () => {
               </span>
             </p>
 
-            <label htmlFor="update-profile" className="btn btn-primary my-10">
+            <label
+              onClick={() => setOpenModal(true)}
+              htmlFor="update-profile"
+              className="btn btn-primary my-10"
+            >
               update profile
             </label>
-            <UpdateProfileModal />
+            {openModal && (
+              <UpdateProfileModal
+                refetch={refetch}
+                setOpenModal={setOpenModal}
+              />
+            )}
           </div>
         </div>
       </div>

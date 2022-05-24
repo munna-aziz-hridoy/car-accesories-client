@@ -1,9 +1,12 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { ServerUrlContext } from "../..";
 import auth from "../../firebase.init";
 
-const UpdateProfileModal = () => {
+const UpdateProfileModal = ({ refetch, setOpenModal }) => {
+  const serverUrl = useContext(ServerUrlContext);
   const [user] = useAuthState(auth);
   const {
     register,
@@ -12,7 +15,16 @@ const UpdateProfileModal = () => {
     formState: { errors },
   } = useForm();
 
-  const handleUpdateProfile = async (data) => {};
+  const handleUpdateProfile = async (inputData) => {
+    const { data } = await axios.patch(
+      `${serverUrl}/updateProfile?email=${user?.email}`,
+      inputData
+    );
+    console.log(data);
+    reset();
+    refetch();
+    setOpenModal(false);
+  };
 
   return (
     <>

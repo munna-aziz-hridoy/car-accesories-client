@@ -19,8 +19,16 @@ const SocialLogin = () => {
   if (user) {
     const email = user.user.email;
     const name = user.user.displayName;
+    const image = user.user.photoURL;
     axios
-      .put("http://localhost:5000/addUser", { name, email })
+      .put("http://localhost:5000/addUser", {
+        name,
+        email,
+        image,
+        address: "",
+        phone: "",
+        country: "",
+      })
       .then((data) => console.log(data));
   }
 

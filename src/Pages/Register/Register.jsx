@@ -34,11 +34,14 @@ const Register = () => {
   // handle sign up proccess
   const handlesignUp = (data) => {
     const { name, email, password } = data;
+    const image =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+    const user = { name, email, image, address: "", phone: "", country: "" };
 
     createUserWithEmailAndPassword(email, password).then(() =>
       updateProfile({ displayName: name }).then(() => {
         axios
-          .put("http://localhost:5000/addUser", { name, email })
+          .put("http://localhost:5000/addUser", { ...user })
           .then((data) => console.log(data));
         reset();
       })

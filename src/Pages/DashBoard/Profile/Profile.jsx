@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useQuery } from "react-query";
+import Spinner from "../../../Components/Spinner/Spinner";
 import UpdateProfileModal from "../../../Components/UpdateProfileModal/UpdateProfileModal";
+import auth from "../../../firebase.init";
 
 const Profile = () => {
-  const user = {
-    name: "Munna Aziz",
-    email: "munna.aziz.hridoy@gmail.com",
-    image: "https://i.ibb.co/FxfB2sN/12.png",
-    phone: "123 456 789",
-    address: "12/A, Block D, 2342 California, USA",
-    country: "United States",
-  };
+  const [loggedInUser] = useAuthState(auth);
+
+  const { data: user, isLoading } = useQuery("user", () => {
+    return fetch(
+      `http://localhost:5000/getProfile?email=${loggedInUser?.email}`
+    ).then((res) => res.json());
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-10 capitalize">
         My Profile
       </h2>
       <div className="hero">
-        <div className="hero-content flex-col lg:flex-row gap-10">
+        <div className="hero-content flex-col lg:flex-row gap-10 w-full">
           <div className="w-full lg:w-1/2 rounded-full p-3 bg-white">
             <img
               src={user.image}

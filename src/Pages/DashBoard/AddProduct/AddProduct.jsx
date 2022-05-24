@@ -1,33 +1,75 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 
 const AddProduct = () => {
+  const serverUrl = useContext(ServerUrlContext);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const handleAddProduct = async (inputData) => {
+    const { productImg, ...rest } = inputData;
+    const uploadedImg = productImg[0];
+    const formData = new FormData();
+    formData.append("image", uploadedImg);
+
+    const imgbbAPIkey = "52ad69453d156ba9876338195fd1a8a5";
+    const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`;
+    const { data: imgData } = await axios.post(url, formData);
+    const image = imgData.data.url;
+    const product = { ...rest, image };
+    const { data } = await axios.post(`${serverUrl}/addProducts`, product);
+    if (data.acknowledged) {
+      toast.success("Product has been uploaded");
+    }
+    reset();
+  };
+
   return (
     <div>
       <CustomTitle page="Add Product" />
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-20 capitalize">
         add a product
       </h2>
-      <form>
+      <form onSubmit={handleSubmit(handleAddProduct)}>
         <label className="label">
           <span className="label-text capitalize text-neutral">
             product name
           </span>
         </label>
         <input
+          {...register("name", { required: "Please Enter Product Name" })}
           type="text"
           placeholder="Name"
           className="input input-bordered input-accent rounded-md  w-full"
         />
+        {errors.name ? (
+          <p className="text-xs text-red-300 my-2">{errors?.name?.message}</p>
+        ) : (
+          ""
+        )}
 
         <label className="label">
           <span className="label-text capitalize text-neutral">price</span>
         </label>
         <input
+          {...register("price", { required: "Please Enter Product Price" })}
           type="number"
           placeholder="price"
           className="input input-bordered input-accent rounded-md  w-full"
         />
+        {errors.price ? (
+          <p className="text-xs text-red-300 my-2">{errors?.name?.message}</p>
+        ) : (
+          ""
+        )}
 
         <label className="label">
           <span className="label-text capitalize text-neutral">
@@ -35,10 +77,20 @@ const AddProduct = () => {
           </span>
         </label>
         <input
+          {...register("availableQuantity", {
+            required: "How much product you have?",
+          })}
           type="number"
           placeholder="Available Quantity"
           className="input input-bordered input-accent rounded-md w-full"
         />
+        {errors.availableQuantity ? (
+          <p className="text-xs text-red-300 my-2">
+            {errors?.availableQuantity?.message}
+          </p>
+        ) : (
+          ""
+        )}
 
         <label className="label">
           <span className="label-text capitalize text-neutral">
@@ -46,27 +98,64 @@ const AddProduct = () => {
           </span>
         </label>
         <input
+          {...register("minOrderQuantity", {})}
           type="number"
           placeholder="Minimum Order Quantity"
           className="input input-bordered input-accent rounded-md  w-full"
         />
+        {errors.minOrderQuantity ? (
+          <p className="text-xs text-red-300 my-2">
+            {errors?.minOrderQuantity?.message}
+          </p>
+        ) : (
+          ""
+        )}
 
         <label className="label">
           <span className="label-text capitalize text-neutral">made for</span>
         </label>
         <input
+          {...register("madeFor")}
           type="text"
           placeholder="Made For"
           className="input input-bordered input-accent rounded-md w-full"
         />
 
         <label className="label">
-          <span className="label-text capitalize text-neutral">Message</span>
+          <span className="label-text capitalize text-neutral">
+            Upload Image
+          </span>
+        </label>
+        <input
+          {...register("productImg", { required: "Please upload any image" })}
+          type="file"
+          className="w-fit p-2 border-2 border-neutral text-neutral font-bold rounded-lg"
+        />
+        {errors.productImg ? (
+          <p className="text-xs text-red-300 my-2">
+            {errors?.productImg?.message}
+          </p>
+        ) : (
+          ""
+        )}
+
+        <label className="label">
+          <span className="label-text capitalize text-neutral">
+            Description
+          </span>
         </label>
         <textarea
+          {...register("details", { required: "Description is needed" })}
           className="textarea textarea-accent w-full"
-          placeholder="Message"
+          placeholder="Description"
         ></textarea>
+        {errors.details ? (
+          <p className="text-xs text-red-300 my-2">
+            {errors?.details?.message}
+          </p>
+        ) : (
+          ""
+        )}
         <input
           type="submit"
           value="Add Product"

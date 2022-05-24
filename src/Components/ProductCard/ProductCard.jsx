@@ -44,10 +44,7 @@ const ProductCard = ({ product }) => {
           /per units
         </p>
         <p className="text-accent capitalize font-medium">
-          made for:{" "}
-          {madeFor.map((item, index) => (
-            <span key={index}>{item}, </span>
-          ))}
+          made for: {madeFor}
         </p>
         <div className="card-actions justify-end">
           <button

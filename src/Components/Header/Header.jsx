@@ -33,13 +33,13 @@ const Header = () => {
               <div
                 className={`${
                   openInfo ? "flex" : "hidden"
-                } absolute flex-col justify-center items-center gap-5 p-6 rounded-lg bg-base-100 shadow-lg top-16 -left-6`}
+                } absolute flex-col justify-center items-center gap-5 p-6 rounded-lg bg-base-100 shadow-lg top-16 -left-14 md:-left-16`}
               >
                 <p className="text-xl font-bold text-neutral capitalize">
-                  name
+                  {user?.displayName}
                 </p>
                 <p className="font-semibold text-accent capitalize">
-                  name@email.com
+                  {user?.email}
                 </p>
               </div>
             </div>

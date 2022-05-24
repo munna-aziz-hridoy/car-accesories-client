@@ -40,6 +40,35 @@ const products = [
     minOrderQuantity: 200,
     madeFor: ["all D/76 chesis"],
   },
+  {
+    name: "CF/63 model Boster engine",
+    image: "https://i.ibb.co/FHD85g1/31.jpg",
+    details:
+      "440 horse power engine, match with all CF/63 model chesis no. Fuel efficient, made of pure metal, rpm up to 40000",
+    price: 180,
+    availableQuantity: 34000,
+    minOrderQuantity: 500,
+    madeFor: ["all CF/63  chesis"],
+  },
+  {
+    name: "OM0041VR1 - Connecting Rod",
+    image: "https://i.ibb.co/FHD85g1/31.jpg",
+    details:
+      "Audi Seat VW Skoda Altea XL Toledo A4 TT Octavia II Passat 1,8 tsi CDAA BYT 2007+",
+    price: 240,
+    availableQuantity: 70000,
+    minOrderQuantity: 500,
+    madeFor: ["Audi", "SKoda", "Altea"],
+  },
+  {
+    name: "VI0021 - ET ENGINETEAM Inlet Valve",
+    image: "https://i.ibb.co/FHD85g1/31.jpg",
+    details: "Skoda VW Audi Seat 1,9TDI 1993-2010",
+    price: 190,
+    availableQuantity: 124000,
+    minOrderQuantity: 5000,
+    madeFor: ["ENGINETEAM", "Audi", "SKoda", "Altea"],
+  },
 ];
 
 const AllProducts = () => {

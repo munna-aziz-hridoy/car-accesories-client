@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ServerUrlContext } from "../../..";
 
 const AddReview = () => {
+  const serverUrl = useContext(ServerUrlContext);
   const [user] = useAuthState(auth);
   const {
     register,
@@ -28,7 +30,7 @@ const AddReview = () => {
 
     const review = { ...data, image: userImg, name: user?.displayName };
     console.log(review);
-    axios.post("http://localhost:5000/reviews", { ...review }).then((data) => {
+    axios.post(`${serverUrl}/reviews`, { ...review }).then((data) => {
       toast.success("Your Review has been successfully posted");
       reset();
     });

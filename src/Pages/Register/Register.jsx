@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import {
   useAuthState,
   useCreateUserWithEmailAndPassword,
@@ -7,11 +7,13 @@ import {
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ServerUrlContext } from "../..";
 import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../Components/Spinner/Spinner";
 import auth from "../../firebase.init";
 
 const Register = () => {
+  const serverUrl = useContext(ServerUrlContext);
   const [user, loading] = useAuthState(auth);
   const [
     createUserWithEmailAndPassword,
@@ -41,7 +43,7 @@ const Register = () => {
     createUserWithEmailAndPassword(email, password).then(() =>
       updateProfile({ displayName: name }).then(() => {
         axios
-          .put("http://localhost:5000/addUser", { ...user })
+          .put(`${serverUrl}/addUser`, { ...user })
           .then((data) => console.log(data));
         reset();
       })

@@ -1,13 +1,15 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ServerUrlContext } from "../..";
 import auth from "../../firebase.init";
 import useToken from "../../hooks/useToken";
 
 const SocialLogin = () => {
   const [signInWithGoogle, user, , error] = useSignInWithGoogle(auth);
   const [token] = useToken(user?.user?.email);
+  const serverUrl = useContext(ServerUrlContext);
 
   const handleGoogleSignIn = () => {
     signInWithGoogle();
@@ -21,7 +23,7 @@ const SocialLogin = () => {
     const name = user.user.displayName;
     const image = user.user.photoURL;
     axios
-      .put("http://localhost:5000/addUser", {
+      .put(`${serverUrl}/addUser`, {
         name,
         email,
         image,

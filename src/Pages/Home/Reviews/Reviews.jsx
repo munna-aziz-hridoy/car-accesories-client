@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Pagination, FreeMode, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import axios from "axios";
@@ -6,14 +6,14 @@ import axios from "axios";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
+import { ServerUrlContext } from "../../..";
 
 const Reviews = () => {
+  const serverUrl = useContext(ServerUrlContext);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/reviews")
-      .then((data) => setReviews(data.data));
+    axios.get(`${serverUrl}/reviews`).then((data) => setReviews(data.data));
   }, []);
 
   return (

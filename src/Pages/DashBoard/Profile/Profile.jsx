@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
+import { ServerUrlContext } from "../../..";
 import Spinner from "../../../Components/Spinner/Spinner";
 import UpdateProfileModal from "../../../Components/UpdateProfileModal/UpdateProfileModal";
 import auth from "../../../firebase.init";
 
 const Profile = () => {
+  const serverurl = useContext(ServerUrlContext);
   const [loggedInUser] = useAuthState(auth);
 
   const { data: user, isLoading } = useQuery("user", () => {
-    return fetch(
-      `http://localhost:5000/getProfile?email=${loggedInUser?.email}`
-    ).then((res) => res.json());
+    return fetch(`${serverurl}/getProfile?email=${loggedInUser?.email}`).then(
+      (res) => res.json()
+    );
   });
 
   if (isLoading) {

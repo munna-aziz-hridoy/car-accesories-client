@@ -10,13 +10,18 @@ import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
+export const ServerUrlContext = React.createContext();
+const serverUrl = "http://localhost:5000";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
-          <App />
+          <ServerUrlContext.Provider value={serverUrl}>
+            <App />
+          </ServerUrlContext.Provider>
         </HelmetProvider>
       </QueryClientProvider>
     </BrowserRouter>

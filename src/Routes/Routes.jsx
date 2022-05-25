@@ -10,6 +10,7 @@ import Order from "../Pages/DashBoard/Order/Order";
 import Profile from "../Pages/DashBoard/Profile/Profile";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
+import Payment from "../Pages/Payment/Payment";
 import PurchaseProduct from "../Pages/PurchaseProduct/PurchaseProduct";
 import Register from "../Pages/Register/Register";
 
@@ -38,6 +39,14 @@ const AppRoutes = () => {
           element={
             <RequireAuth>
               <PurchaseProduct />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="payment/:id"
+          element={
+            <RequireAuth>
+              <Payment />
             </RequireAuth>
           }
         />

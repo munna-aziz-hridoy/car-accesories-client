@@ -11,6 +11,7 @@ const PurchaseProduct = () => {
   const serverUrl = useContext(ServerUrlContext);
   const { id } = useParams();
   const url = `${serverUrl}/singleProduct?id=${id}`;
+  console.log(url);
   const { data: product, isLoading } = useQuery(["product", url], () => {
     return fetch(url).then((res) => res.json());
   });

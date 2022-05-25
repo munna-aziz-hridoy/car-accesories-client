@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../../Components/Spinner/Spinner";
+import Payment from "../../Payment/Payment";
 
 const Order = () => {
   const serverUrl = useContext(ServerUrlContext);
@@ -10,6 +12,8 @@ const Order = () => {
   const { data: orders, isLoading } = useQuery("orders", () => {
     return fetch(`${serverUrl}/allOrders`).then((res) => res.json());
   });
+
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <Spinner />;
@@ -39,6 +43,7 @@ const Order = () => {
           <tbody>
             {orders.map((order, index) => {
               const {
+                _id,
                 product,
                 price,
                 quantity,
@@ -70,6 +75,7 @@ const Order = () => {
                   <td>
                     <div>
                       <button
+                        onClick={() => navigate(`/payment/${_id}`)}
                         disabled={paid}
                         className={`btn btn-xs ${
                           paid

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import CheckoutForm from "../../Components/CheckoutFrom/CheckoutForm";
 import Spinner from "../../Components/Spinner/Spinner";
+import auth from "../../firebase.init";
 
 const stripePromise = loadStripe(
   "pk_test_51L1uNJFwLOKoh01CCS9qXRUMMyLfpPSmGNGCuytfehODVTvoNROZNGCcoGWHcJg9rJEHy2Zz3EWrJoWIUvSNnAAz00ggzNgcNs"
@@ -14,7 +15,7 @@ const stripePromise = loadStripe(
 
 const Payment = () => {
   const serverUrl = useContext(ServerUrlContext);
-  //   const [user] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   //   const [selectedService, setSelectedService] = useState({});
   //   const { id } = useParams();
   //   useEffect(() => {
@@ -33,9 +34,13 @@ const Payment = () => {
 
   const { id } = useParams();
 
-  const url = `${serverUrl}/singleOrder?id=${id}`;
+  const url = `${serverUrl}/singleOrder?id=${id}&email=${user?.email}`;
   const { data: order, isLoading } = useQuery(["product", url], () => {
-    return fetch(url).then((res) => res.json());
+    return fetch(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => res.json());
   });
 
   if (isLoading) {

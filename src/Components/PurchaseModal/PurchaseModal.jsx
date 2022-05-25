@@ -38,9 +38,13 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       transactionId: "",
     };
 
-    const url = `${serverUrl}/purchaseProduct`;
+    const url = `${serverUrl}/purchaseProduct?email=${user?.email}`;
 
-    const { data: result } = await axios.post(url, orderedItem);
+    const { data: result } = await axios.post(url, orderedItem, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
     if (result.acknowledged) {
       toast.success("Your order has been success fully placed");
       reset();

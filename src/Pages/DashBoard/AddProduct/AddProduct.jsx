@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useContext } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
+import auth from "../../../firebase.init";
 
 const AddProduct = () => {
   const serverUrl = useContext(ServerUrlContext);
+  const [user] = useAuthState(auth);
   const {
     handleSubmit,
     register,
@@ -25,7 +28,15 @@ const AddProduct = () => {
     const { data: imgData } = await axios.post(url, formData);
     const image = imgData.data.url;
     const product = { ...rest, image };
-    const { data } = await axios.post(`${serverUrl}/addProducts`, product);
+    const { data } = await axios.post(
+      `${serverUrl}/addProducts?email=${user?.email}`,
+      product,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
     if (data.acknowledged) {
       toast.success("Product has been uploaded");
     }

@@ -23,9 +23,11 @@ const Profile = () => {
     isLoading,
     refetch,
   } = useQuery(["user", serverurl, loggedInUser], () => {
-    return fetch(`${serverurl}/getProfile?email=${loggedInUser?.email}`).then(
-      (res) => res.json()
-    );
+    return fetch(`${serverurl}/getProfile?email=${loggedInUser?.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => res.json());
   });
 
   if (isLoading) {
@@ -61,7 +63,7 @@ const Profile = () => {
       <div className="hero">
         <div className="hero-content flex-col lg:flex-row gap-10 w-full">
           <div className="w-full lg:w-1/2">
-            <div className="avatar">
+            <div className="avatar w-full">
               <div className="w-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img src={image} alt="" />
               </div>

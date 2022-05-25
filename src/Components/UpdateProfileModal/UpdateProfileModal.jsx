@@ -18,7 +18,12 @@ const UpdateProfileModal = ({ refetch, setOpenModal }) => {
   const handleUpdateProfile = async (inputData) => {
     const { data } = await axios.patch(
       `${serverUrl}/updateProfile?email=${user?.email}`,
-      inputData
+      inputData,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
     );
     console.log(data);
     reset();

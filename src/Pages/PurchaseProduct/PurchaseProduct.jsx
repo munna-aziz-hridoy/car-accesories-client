@@ -1,19 +1,26 @@
 import React, { useContext, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import Footer from "../../Components/Footer/Footer";
 import PurchaseModal from "../../Components/PurchaseModal/PurchaseModal";
 import Spinner from "../../Components/Spinner/Spinner";
+import auth from "../../firebase.init";
 
 const PurchaseProduct = () => {
+  const [user] = useAuthState(auth);
   const [openModal, setOpenModal] = useState(false);
   const serverUrl = useContext(ServerUrlContext);
   const { id } = useParams();
-  const url = `${serverUrl}/singleProduct?id=${id}`;
-  console.log(url);
+  const url = `${serverUrl}/singleProduct?id=${id}&email=${user?.email}`;
+
   const { data: product, isLoading } = useQuery(["product", url], () => {
-    return fetch(url).then((res) => res.json());
+    return fetch(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => res.json());
   });
 
   if (isLoading) {

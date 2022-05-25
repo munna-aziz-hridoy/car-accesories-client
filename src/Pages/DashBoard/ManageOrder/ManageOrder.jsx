@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../../Components/Spinner/Spinner";
+import auth from "../../../firebase.init";
 
 const ManageOrder = () => {
+  const [user] = useAuthState(auth);
   const serverUrl = useContext(ServerUrlContext);
 
   const { data: orders, isLoading } = useQuery("orders", () => {
-    return fetch(`${serverUrl}/allOrders`).then((res) => res.json());
+    return fetch(`${serverUrl}/allOrders?email=${user?.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => res.json());
   });
 
   if (isLoading) {

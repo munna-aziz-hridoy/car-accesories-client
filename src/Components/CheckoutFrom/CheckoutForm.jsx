@@ -22,11 +22,19 @@ const CheckoutForm = ({ order }) => {
   const [clientSecret, setclientSecret] = useState("");
 
   useEffect(() => {
-    const url = `${serverUrl}/create-payment-intent`;
+    const url = `${serverUrl}/create-payment-intent?email=${user?.email}`;
     axios
-      .post(url, { price: order.price })
+      .post(
+        url,
+        { price: order.price },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
       .then((data) => setclientSecret(data.data.clientSecret));
-  }, [order, serverUrl]);
+  }, [order, serverUrl, user]);
 
   console.log(clientSecret);
 

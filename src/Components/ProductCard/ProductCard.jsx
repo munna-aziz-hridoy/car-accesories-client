@@ -17,8 +17,10 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="card card-compact bg-base-100 hover:bg-white shadow hover:-translate-y-8 border-8 border-transparent hover:border-primary hover:shadow-2xl hover:shadow-[#ff075541] duration-300">
-      <div className="p-5">
-        <img src={image} alt="Shoes" className="w-full rounded-lg" />
+      <div className="avatar justify-center">
+        <div className="p-5">
+          <img src={image} alt="Shoes" className="w-full rounded-lg" />
+        </div>
       </div>
       <div className="card-body mt-3">
         <h2 className="card-title font-bold text-neutral capitalize">{name}</h2>

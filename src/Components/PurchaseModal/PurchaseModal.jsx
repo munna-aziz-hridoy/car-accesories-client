@@ -35,6 +35,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       ...data,
       paid: false,
       deliveryStatus: false,
+      transactionId: "",
     };
 
     const url = `${serverUrl}/purchaseProduct`;

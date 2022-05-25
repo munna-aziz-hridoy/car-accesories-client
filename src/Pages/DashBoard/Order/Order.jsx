@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
+import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
+import Spinner from "../../../Components/Spinner/Spinner";
 
 const Order = () => {
+  const serverUrl = useContext(ServerUrlContext);
+
+  const { data: orders, isLoading } = useQuery("orders", () => {
+    return fetch(`${serverUrl}/allOrders`).then((res) => res.json());
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <CustomTitle page="Order" />
@@ -24,22 +37,53 @@ const Order = () => {
           </thead>
 
           <tbody>
-            <tr className="hover">
-              <th> 1</th>
-              <td>Product</td>
-              <td>Price</td>
-              <td>Order Quantity</td>
-              <td>Total price</td>
-              <td>Pending</td>
-              <td>Transaction ID</td>
-              <td>
-                <div>
-                  <button className="btn btn-xs border-green-600 font-semibold px-2 bg-green-600 text-white capitalize rounded-lg">
-                    Pay
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {orders.map((order, index) => {
+              const {
+                product,
+                price,
+                quantity,
+                deliveryStatus,
+                paid,
+                transactionId,
+              } = order;
+              return (
+                <tr key={index} className="hover">
+                  <th>{index + 1}</th>
+                  <td>{product}</td>
+                  <td>${price}</td>
+                  <td>{quantity}</td>
+                  <td>${price * parseInt(quantity)}</td>
+                  <td>
+                    {deliveryStatus ? (
+                      <span className="text-green-600 font-semibold">
+                        Shipped
+                      </span>
+                    ) : (
+                      <span className="text-orange-600 font-semibold">
+                        Pending
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {transactionId ? transactionId : "You haven't paid yet"}
+                  </td>
+                  <td>
+                    <div>
+                      <button
+                        disabled={paid}
+                        className={`btn btn-xs ${
+                          paid
+                            ? "bg-blue-600 border-blue-600"
+                            : "bg-green-600 border-green-600"
+                        }   font-semibold px-2  text-white capitalize rounded-lg disabled:text-accent`}
+                      >
+                        {paid ? "Paid" : "Pay"}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

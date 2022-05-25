@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
@@ -11,8 +12,12 @@ const Order = () => {
   const [user] = useAuthState(auth);
   const serverUrl = useContext(ServerUrlContext);
 
-  const { data: orders, isLoading } = useQuery("orders", () => {
-    return fetch(`${serverUrl}/allOrders?email=${user?.email}`, {
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useQuery(["orders", user], () => {
+    return fetch(`${serverUrl}/UsersOrders?email=${user?.email}`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -24,6 +29,19 @@ const Order = () => {
   if (isLoading) {
     return <Spinner />;
   }
+
+  const handleDeleteOrder = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (!confirmDelete) return;
+    const url = `${serverUrl}/deleteProduct/${id}&email=${user?.email}`;
+    const { data } = await axios.delete(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    refetch();
+    console.log(data);
+  };
 
   return (
     <>
@@ -79,17 +97,22 @@ const Order = () => {
                     {transactionId ? transactionId : "You haven't paid yet"}
                   </td>
                   <td>
-                    <div>
+                    <div className="flex gap-2 justify-center items-center">
                       <button
                         onClick={() => navigate(`/payment/${_id}`)}
                         disabled={paid}
-                        className={`btn btn-xs ${
-                          paid
-                            ? "bg-blue-600 border-blue-600"
-                            : "bg-green-600 border-green-600"
-                        }   font-semibold px-2  text-white capitalize rounded-lg disabled:text-accent`}
+                        className="btn btn-xs bg-green-600 border-green-600
+                        font-semibold px-2 text-white capitalize rounded-lg disabled:text-accent"
                       >
                         {paid ? "Paid" : "Pay"}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteOrder(_id)}
+                        disabled={paid}
+                        className="btn btn-xs bg-red-600 border-red-600
+                        font-semibold px-2 text-white capitalize rounded-lg"
+                      >
+                        Cancel
                       </button>
                     </div>
                   </td>

@@ -9,12 +9,15 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import CustomTitle from "../../Components/CustomTitle/CustomTitle";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import Spinner from "../../Components/Spinner/Spinner";
 import auth from "../../firebase.init";
+import useToken from "../../hooks/useToken";
 
 const Register = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [user, loading] = useAuthState(auth);
+  const [token] = useToken(user?.email);
   const [
     createUserWithEmailAndPassword,
     signUpUser,
@@ -38,7 +41,15 @@ const Register = () => {
     const { name, email, password } = data;
     const image =
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
-    const user = { name, email, image, address: "", phone: "", country: "" };
+    const user = {
+      name,
+      email,
+      image,
+      address: "",
+      phone: "",
+      country: "",
+      role: "",
+    };
 
     createUserWithEmailAndPassword(email, password).then(() =>
       updateProfile({ displayName: name }).then(() => {
@@ -58,7 +69,7 @@ const Register = () => {
   }
 
   // redirect from register page when user available
-  if (user || signUpUser) {
+  if (token) {
     navigate(from);
     return;
   }
@@ -166,6 +177,7 @@ const Register = () => {
             </p>
           </form>
           <div className="divider mt-10">OR</div>
+          <SocialLogin />
         </div>
       </div>
     </>

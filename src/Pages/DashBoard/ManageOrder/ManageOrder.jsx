@@ -91,7 +91,7 @@ const ManageOrder = () => {
                   <td>
                     <div>
                       {deliveryStatus ? (
-                        <button className="btn btn-xs  font-semibold px-2 bg-green-600 border-green-600  text-white capitalize rounded-lg disabled:text-accent">
+                        <button className="btn-xs  font-semibold px-2 bg-green-600 border-green-600  text-white capitalize rounded-lg disabled:text-accent">
                           Delivered
                         </button>
                       ) : (

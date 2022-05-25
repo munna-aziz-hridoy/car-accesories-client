@@ -58,6 +58,9 @@ const DashBoard = () => {
                 <Link to="/dashboard/manageOrder">manage order</Link>
               </li>
               <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                <Link to="/dashboard/allUsers">All Users</Link>
+              </li>
+              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
                 <Link to="/dashboard/addproduct">add product</Link>
               </li>
             </ul>

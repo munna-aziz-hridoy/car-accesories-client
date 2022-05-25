@@ -3,12 +3,11 @@ import axios from "axios";
 import { signOut } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { ServerUrlContext } from "../..";
 import auth from "../../firebase.init";
-
-import Spinner from "../Spinner/Spinner";
 
 const CheckoutForm = ({ order }) => {
   const { price, user, email, _id } = order;
@@ -23,7 +22,7 @@ const CheckoutForm = ({ order }) => {
   const [clientSecret, setclientSecret] = useState("");
 
   useEffect(() => {
-    const url = `${serverUrl}/create-payment-intent?email=${user?.email}`;
+    const url = `${serverUrl}/create-payment-intent?email=${loggedInUser?.email}`;
     axios
       .post(
         url,
@@ -35,12 +34,11 @@ const CheckoutForm = ({ order }) => {
         }
       )
       .then((data) => setclientSecret(data.data.clientSecret));
-  }, [order, serverUrl, user, price]);
-
-  console.log(clientSecret);
+  }, [order, serverUrl, loggedInUser, price]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const card = elements.getElement(CardElement);
 
     if (!elements || !stripe) {
@@ -63,14 +61,21 @@ const CheckoutForm = ({ order }) => {
           },
         },
       });
-
+    if (!paymentIntent) return;
     const { data } = await axios.patch(
-      `${serverUrl}/updateSignleOrder?id=${_id}`,
-      { transactionId: paymentIntent?.id }
+      `${serverUrl}/updateSignleOrder?id=${_id}&email=${loggedInUser?.email}`,
+      { transactionId: paymentIntent?.id },
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
     );
-
-    setErrorText(intentError?.message || "");
+    console.log(data);
+    toast.success("Your Payment is successful");
+    // navigate("/dashboard/order");
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <CardElement className="bg-base-200 p-5 rounded-md shadow" />

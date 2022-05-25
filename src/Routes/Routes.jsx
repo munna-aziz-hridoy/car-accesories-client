@@ -4,6 +4,7 @@ import RequireAuth from "../Components/RequireAuth/RequireAuth";
 import AllProducts from "../Pages/AllProducts/AllProducts";
 import AddProduct from "../Pages/DashBoard/AddProduct/AddProduct";
 import AddReview from "../Pages/DashBoard/AddReview/AddReview";
+import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
 import DashBoard from "../Pages/DashBoard/DashBoard";
 import ManageOrder from "../Pages/DashBoard/ManageOrder/ManageOrder";
 import Order from "../Pages/DashBoard/Order/Order";
@@ -33,6 +34,7 @@ const AppRoutes = () => {
           <Route path="order" element={<Order />} />
           <Route path="manageOrder" element={<ManageOrder />} />
           <Route path="addproduct" element={<AddProduct />} />
+          <Route path="allUsers" element={<AllUsers />} />
         </Route>
         <Route
           path="/purchaseItem/:id"

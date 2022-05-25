@@ -30,6 +30,7 @@ const SocialLogin = () => {
         address: "",
         phone: "",
         country: "",
+        role: "",
       })
       .then((data) => console.log(data));
   }

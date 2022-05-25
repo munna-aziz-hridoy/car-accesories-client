@@ -18,10 +18,14 @@ const PurchaseModal = ({ setOpenModal, product }) => {
     formState: { errors },
   } = useForm();
 
-  const { name, price, availableQuantity, minOrderQuantity } = product;
+  const { _id, name, price, availableQuantity, minOrderQuantity } = product;
 
   const handlePurchaseProduct = async (data) => {
-    if (data.quantity < minOrderQuantity || data.quantity > availableQuantity) {
+    const inputQuantity = parseInt(data.quantity);
+    if (
+      inputQuantity < parseInt(minOrderQuantity) ||
+      inputQuantity > parseInt(availableQuantity)
+    ) {
       return setErrorText(
         `You can order at most ${availableQuantity} units and minimum ${minOrderQuantity} units`
       );
@@ -31,6 +35,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       user: user?.displayName,
       email: user?.email,
       product: name,
+      productId: _id,
       price,
       ...data,
       paid: false,
@@ -113,6 +118,25 @@ const PurchaseModal = ({ setOpenModal, product }) => {
             )}
 
             <label className="label">
+              <span className="label-text capitalize text-neutral">Phone</span>
+            </label>
+            <input
+              {...register("phone", {
+                required: "You must have to add a shipping address",
+              })}
+              type="number"
+              placeholder="Phone Number"
+              className="input input-bordered  rounded-md input-primary w-full"
+            />
+            {errors.phone ? (
+              <p className="text-xs text-red-300 my-2">
+                {errors?.phone?.message}
+              </p>
+            ) : (
+              ""
+            )}
+
+            <label className="label">
               <span className="label-text capitalize text-neutral">
                 quantity
               </span>
@@ -122,7 +146,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
                 required: "How much unit you want to buy?",
               })}
               type="number"
-              placeholder="quantity"
+              placeholder={minOrderQuantity}
               className="input input-bordered  rounded-md input-primary w-full"
             />
             {errors.shippingAddress ? (

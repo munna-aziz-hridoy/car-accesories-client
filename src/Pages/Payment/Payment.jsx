@@ -1,6 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -16,26 +16,11 @@ const stripePromise = loadStripe(
 const Payment = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [user] = useAuthState(auth);
-  //   const [selectedService, setSelectedService] = useState({});
-  //   const { id } = useParams();
-  //   useEffect(() => {
-  //     const url = `http://localhost:5000/singleService/${id}?email=${user?.email}`;
-  //     fetch(url, {
-  //       headers: {
-  //         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //       },
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then((data) => setSelectedService(data));
-  //   }, [id, user]);
-  //   const { service, timeSlot, bookingDate, price } = selectedService;
 
   const { id } = useParams();
 
   const url = `${serverUrl}/singleOrder?id=${id}&email=${user?.email}`;
-  const { data: order, isLoading } = useQuery(["product", url], () => {
+  const { data: order, isLoading } = useQuery(["order", url], () => {
     return fetch(url, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

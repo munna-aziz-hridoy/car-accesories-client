@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
@@ -10,7 +11,11 @@ const ManageOrder = () => {
   const [user] = useAuthState(auth);
   const serverUrl = useContext(ServerUrlContext);
 
-  const { data: orders, isLoading } = useQuery("orders", () => {
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useQuery("orders", () => {
     return fetch(`${serverUrl}/allOrders?email=${user?.email}`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -21,6 +26,22 @@ const ManageOrder = () => {
   if (isLoading) {
     return <Spinner />;
   }
+
+  const handleShipping = async (id) => {
+    const url = `${serverUrl}/updateDeliveryStatus?email=${user?.email}`;
+
+    const { data } = await axios.patch(
+      url,
+      { id },
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    console.log(data);
+    refetch();
+  };
 
   return (
     <>
@@ -44,8 +65,15 @@ const ManageOrder = () => {
 
           <tbody>
             {orders?.map((order, index) => {
-              const { product, quantity, price, email, paid, deliveryStatus } =
-                order;
+              const {
+                _id,
+                product,
+                quantity,
+                price,
+                email,
+                paid,
+                deliveryStatus,
+              } = order;
               return (
                 <tr key={index} className="hover">
                   <th>{index + 1}</th>
@@ -62,16 +90,20 @@ const ManageOrder = () => {
                   </td>
                   <td>
                     <div>
-                      <button
-                        disabled={paid}
-                        className={`btn btn-xs  font-semibold px-2  text-white capitalize rounded-lg disabled:text-accent ${
-                          deliveryStatus
-                            ? "bg-green-600 border-green-600"
-                            : "bg-orange-400 border-orange-400"
-                        }`}
-                      >
-                        {deliveryStatus ? "Delivered" : "Ship now"}
-                      </button>
+                      {deliveryStatus ? (
+                        <button className="btn btn-xs  font-semibold px-2 bg-green-600 border-green-600  text-white capitalize rounded-lg disabled:text-accent">
+                          Delivered
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleShipping(_id)}
+                          disabled={!paid && !deliveryStatus}
+                          className="btn btn-xs  font-semibold px-2  text-white capitalize rounded-lg disabled:text-accent
+                             bg-orange-400 border-orange-400"
+                        >
+                          Ship now
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

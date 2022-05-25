@@ -11,8 +11,9 @@ import auth from "../../firebase.init";
 import Spinner from "../Spinner/Spinner";
 
 const CheckoutForm = ({ order }) => {
+  const { price, user, email, _id } = order;
   const serverUrl = useContext(ServerUrlContext);
-  const [user] = useAuthState(auth);
+  const [loggedInUser] = useAuthState(auth);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -26,7 +27,7 @@ const CheckoutForm = ({ order }) => {
     axios
       .post(
         url,
-        { price: order.price },
+        { price: price },
         {
           headers: {
             authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -34,7 +35,7 @@ const CheckoutForm = ({ order }) => {
         }
       )
       .then((data) => setclientSecret(data.data.clientSecret));
-  }, [order, serverUrl, user]);
+  }, [order, serverUrl, user, price]);
 
   console.log(clientSecret);
 
@@ -57,11 +58,16 @@ const CheckoutForm = ({ order }) => {
         payment_method: {
           card: card,
           billing_details: {
-            name: order.user,
-            email: order.email,
+            name: user,
+            email: email,
           },
         },
       });
+
+    const { data } = await axios.patch(
+      `${serverUrl}/updateSignleOrder?id=${_id}`,
+      { transactionId: paymentIntent?.id }
+    );
 
     setErrorText(intentError?.message || "");
   };

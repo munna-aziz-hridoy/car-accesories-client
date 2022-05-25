@@ -54,6 +54,7 @@ const Profile = () => {
     refetch();
     reset();
   };
+  console.log(user);
   const { name, image, address, phone, country, email } = user;
   return (
     <>

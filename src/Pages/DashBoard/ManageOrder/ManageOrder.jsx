@@ -1,7 +1,9 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../../Components/Spinner/Spinner";
@@ -20,7 +22,14 @@ const ManageOrder = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
   });
 
   if (isLoading) {
@@ -30,7 +39,7 @@ const ManageOrder = () => {
   const handleShipping = async (id) => {
     const url = `${serverUrl}/updateDeliveryStatus?email=${user?.email}`;
 
-    const { data } = await axios.patch(
+    const data = await axios.patch(
       url,
       { id },
       {
@@ -39,7 +48,12 @@ const ManageOrder = () => {
         },
       }
     );
-    console.log(data);
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    toast.success("Order Successfully Delivered");
     refetch();
   };
 

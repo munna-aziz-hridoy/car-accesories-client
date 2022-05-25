@@ -22,17 +22,14 @@ const SocialLogin = () => {
     const email = user.user.email;
     const name = user.user.displayName;
     const image = user.user.photoURL;
-    axios
-      .put(`${serverUrl}/addUser`, {
-        name,
-        email,
-        image,
-        address: "",
-        phone: "",
-        country: "",
-        role: "",
-      })
-      .then((data) => console.log(data));
+    axios.put(`${serverUrl}/addUser`, {
+      name,
+      email,
+      image,
+      address: "",
+      phone: "",
+      country: "",
+    });
   }
 
   if (token) {

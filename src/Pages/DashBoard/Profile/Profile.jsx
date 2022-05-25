@@ -1,4 +1,5 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
@@ -27,7 +28,14 @@ const Profile = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
   });
 
   if (isLoading) {
@@ -54,7 +62,7 @@ const Profile = () => {
     refetch();
     reset();
   };
-  console.log(user);
+
   const { name, image, address, phone, country, email } = user;
   return (
     <>

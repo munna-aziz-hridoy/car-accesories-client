@@ -1,4 +1,5 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
@@ -20,8 +21,8 @@ const PurchaseModal = ({ setOpenModal, product }) => {
 
   const { _id, name, price, availableQuantity, minOrderQuantity } = product;
 
-  const handlePurchaseProduct = async (data) => {
-    const inputQuantity = parseInt(data.quantity);
+  const handlePurchaseProduct = async (inputData) => {
+    const inputQuantity = parseInt(inputData.quantity);
     if (
       inputQuantity < parseInt(minOrderQuantity) ||
       inputQuantity > parseInt(availableQuantity)
@@ -37,7 +38,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       product: name,
       productId: _id,
       price,
-      ...data,
+      ...inputData,
       paid: false,
       deliveryStatus: false,
       transactionId: "",
@@ -45,12 +46,17 @@ const PurchaseModal = ({ setOpenModal, product }) => {
 
     const url = `${serverUrl}/purchaseProduct?email=${user?.email}`;
 
-    const { data: result } = await axios.post(url, orderedItem, {
+    const data = await axios.post(url, orderedItem, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
-    if (result.acknowledged) {
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    if (data.data.acknowledged) {
       toast.success("Your order has been success fully placed");
       reset();
     }

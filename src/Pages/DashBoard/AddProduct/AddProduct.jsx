@@ -1,4 +1,5 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
@@ -28,7 +29,7 @@ const AddProduct = () => {
     const { data: imgData } = await axios.post(url, formData);
     const image = imgData.data.url;
     const product = { ...rest, image };
-    const { data } = await axios.post(
+    const data = await axios.post(
       `${serverUrl}/addProducts?email=${user?.email}`,
       product,
       {
@@ -37,7 +38,12 @@ const AddProduct = () => {
         },
       }
     );
-    if (data.acknowledged) {
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    if (data.data.acknowledged) {
       toast.success("Product has been uploaded");
     }
     reset();

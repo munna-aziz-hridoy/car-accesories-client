@@ -29,7 +29,7 @@ const AddReview = () => {
     }
 
     const review = { ...data, image: userImg, name: user?.displayName };
-    console.log(review);
+
     axios.post(`${serverUrl}/reviews`, { ...review }).then((data) => {
       toast.success("Your Review has been successfully posted");
       reset();

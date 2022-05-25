@@ -1,7 +1,9 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { ServerUrlContext } from "../..";
 import auth from "../../firebase.init";
 
@@ -16,7 +18,7 @@ const UpdateProfileModal = ({ refetch, setOpenModal }) => {
   } = useForm();
 
   const handleUpdateProfile = async (inputData) => {
-    const { data } = await axios.patch(
+    const data = await axios.patch(
       `${serverUrl}/updateProfile?email=${user?.email}`,
       inputData,
       {
@@ -25,9 +27,14 @@ const UpdateProfileModal = ({ refetch, setOpenModal }) => {
         },
       }
     );
-    console.log(data);
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
     reset();
     refetch();
+    toast.success("Your Profile has been updated");
     setOpenModal(false);
   };
 

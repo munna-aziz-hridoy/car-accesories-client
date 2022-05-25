@@ -1,3 +1,4 @@
+import { signOut } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
@@ -20,7 +21,14 @@ const PurchaseProduct = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
   });
 
   if (isLoading) {

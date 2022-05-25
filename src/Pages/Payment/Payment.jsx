@@ -1,5 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { signOut } from "firebase/auth";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
@@ -25,7 +26,14 @@ const Payment = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
   });
 
   if (isLoading) {

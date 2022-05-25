@@ -1,7 +1,83 @@
-import React from "react";
+import axios from "axios";
+import { signOut } from "firebase/auth";
+import React, { useContext, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useQuery } from "react-query";
+import { toast } from "react-toastify";
+import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
+import Spinner from "../../../Components/Spinner/Spinner";
+import auth from "../../../firebase.init";
 
 const AllUsers = () => {
+  const [allUsers, setAllUsers] = useState([]);
+  const [user] = useAuthState(auth);
+  const serverUrl = useContext(ServerUrlContext);
+
+  const { data, isLoading, refetch } = useQuery(
+    ["allUsers", serverUrl, user],
+    () => {
+      fetch(`${serverUrl}/allUsers?email=${user?.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 401 || res.status === 403) {
+            signOut(auth);
+            localStorage.removeItem("accessToken");
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => setAllUsers(data));
+    }
+  );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const handleMakeAdmin = async (id) => {
+    const url = `${serverUrl}/makeAdmin?email=${user?.email}`;
+    const data = await axios.patch(
+      url,
+      { id },
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    if (data.data.acknowledged) {
+      toast.success("Successfully make user admin");
+      refetch();
+    }
+  };
+
+  const handleDeleteUser = async (id) => {
+    const url = `${serverUrl}/deleteOneUser?email=${user?.email}&id=${id}`;
+    const data = await axios.delete(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    if (data.data.acknowledged) {
+      toast.warning("Successfully deleted user");
+      refetch();
+    }
+  };
+
   return (
     <div>
       <CustomTitle page="All Users" />
@@ -12,26 +88,63 @@ const AllUsers = () => {
         <thead>
           <tr>
             <th></th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Order Quantity</th>
-            <th>Total Price</th>
-            <th>Shipping Status</th>
-            <th>Transaction ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Country</th>
+
             <th>Action</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr>
-            <td></td>
-            <td>Product</td>
-            <td>Price</td>
-            <td>Order Quantity</td>
-            <td>Total Price</td>
-            <td>Shipping Status</td>
-            <td>Transaction ID</td>
-            <td>Action</td>
-          </tr>
+          {allUsers?.map((user, index) => {
+            const { _id, name, image, email, phone, country, role } = user;
+            const userImg =
+              image ||
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+            return (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>
+                  <div className="flex justify-start items-center gap-3">
+                    <div class="avatar">
+                      <div class="w-8 rounded">
+                        <img
+                          src={userImg}
+                          alt="Tailwind-CSS-Avatar-component"
+                        />
+                      </div>
+                    </div>
+                    <p>{name}</p>
+                  </div>
+                </td>
+                <td>{email}</td>
+                <td>{phone}</td>
+                <td>{country}</td>
+                <td>
+                  {" "}
+                  <div className="flex gap-2 justify-center items-center">
+                    <button
+                      disabled={role === "admin"}
+                      onClick={() => handleMakeAdmin(_id)}
+                      className="btn btn-xs bg-green-600 border-green-600
+                        font-semibold px-2 text-white capitalize rounded-lg disabled:text-accent"
+                    >
+                      {role === "admin" ? "Already Admin" : "Make admin"}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(_id)}
+                      className="btn btn-xs bg-red-600 border-red-600
+                        font-semibold px-2 text-white capitalize rounded-lg"
+                    >
+                      remove user
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

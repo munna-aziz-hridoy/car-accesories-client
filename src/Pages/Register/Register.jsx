@@ -17,13 +17,15 @@ import useToken from "../../hooks/useToken";
 const Register = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [user, loading] = useAuthState(auth);
-  const [token] = useToken(user?.email);
+
   const [
     createUserWithEmailAndPassword,
     signUpUser,
     signUpLoading,
     signUpError,
   ] = useCreateUserWithEmailAndPassword(auth);
+  const [token] = useToken(user?.email);
+
   const [updateProfile] = useUpdateProfile(auth);
 
   const {
@@ -48,15 +50,13 @@ const Register = () => {
       address: "",
       phone: "",
       country: "",
-      role: "",
     };
 
     createUserWithEmailAndPassword(email, password).then(() =>
       updateProfile({ displayName: name }).then(() => {
-        axios
-          .put(`${serverUrl}/addUser`, { ...user })
-          .then((data) => console.log(data));
-        reset();
+        axios.put(`${serverUrl}/addUser`, { ...user }).then((data) => {
+          reset();
+        });
       })
     );
   };
@@ -70,6 +70,7 @@ const Register = () => {
 
   // redirect from register page when user available
   if (token) {
+    localStorage.setItem("accessToken", token);
     navigate(from);
     return;
   }

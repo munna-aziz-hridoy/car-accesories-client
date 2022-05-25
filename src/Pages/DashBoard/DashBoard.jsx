@@ -1,8 +1,13 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, Outlet } from "react-router-dom";
 import CustomTitle from "../../Components/CustomTitle/CustomTitle";
+import auth from "../../firebase.init";
+import useAdmin from "../../hooks/useAdmin";
 
 const DashBoard = () => {
+  const [user] = useAuthState(auth);
+  const [isAdmin] = useAdmin(user?.email);
   return (
     <>
       <CustomTitle page="Dashboard" />
@@ -43,26 +48,35 @@ const DashBoard = () => {
                 <Link to="/dashboard">Profile</Link>
               </li>
 
-              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
-                <Link to="/dashboard/order">Order</Link>
-              </li>
-              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
-                <Link
-                  to="/dashboard/addreview
+              {!isAdmin && (
+                <>
+                  <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                    <Link to="/dashboard/order">Order</Link>
+                  </li>
+                  <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                    <Link
+                      to="/dashboard/addreview
                 "
-                >
-                  Add Review
-                </Link>
-              </li>
-              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
-                <Link to="/dashboard/manageOrder">manage order</Link>
-              </li>
-              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
-                <Link to="/dashboard/allUsers">All Users</Link>
-              </li>
-              <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
-                <Link to="/dashboard/addproduct">add product</Link>
-              </li>
+                    >
+                      Add Review
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              {isAdmin && (
+                <>
+                  <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                    <Link to="/dashboard/manageOrder">manage order</Link>
+                  </li>
+                  <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                    <Link to="/dashboard/allUsers">All Users</Link>
+                  </li>
+                  <li className="bg-white hover:bg-primary hover:text-white hover:-translate-y-1 hover:shadow-lg duration-300 capitalize font-medium text-accent shadow rounded-lg my-2">
+                    <Link to="/dashboard/addproduct">add product</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

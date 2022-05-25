@@ -33,7 +33,14 @@ const CheckoutForm = ({ order }) => {
           },
         }
       )
-      .then((data) => setclientSecret(data.data.clientSecret));
+      .then((data) => {
+        if (data.status === 401 || data.status === 403) {
+          signOut(auth);
+          localStorage.removeItem("accessToken");
+          return;
+        }
+        setclientSecret(data.data.clientSecret);
+      });
   }, [order, serverUrl, loggedInUser, price]);
 
   const handleSubmit = async (e) => {
@@ -62,7 +69,10 @@ const CheckoutForm = ({ order }) => {
         },
       });
     if (!paymentIntent) return;
-    const { data } = await axios.patch(
+    if (intentError) {
+      return setErrorText(intentError.message);
+    }
+    const data = await axios.patch(
       `${serverUrl}/updateSignleOrder?id=${_id}&email=${loggedInUser?.email}`,
       { transactionId: paymentIntent?.id },
       {
@@ -71,9 +81,13 @@ const CheckoutForm = ({ order }) => {
         },
       }
     );
-    console.log(data);
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
     toast.success("Your Payment is successful");
-    // navigate("/dashboard/order");
+    navigate("/dashboard/order");
   };
 
   return (

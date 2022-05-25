@@ -1,4 +1,5 @@
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
@@ -21,7 +22,14 @@ const Order = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
   });
 
   const navigate = useNavigate();
@@ -34,13 +42,17 @@ const Order = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
     const url = `${serverUrl}/deleteProduct/${id}&email=${user?.email}`;
-    const { data } = await axios.delete(url, {
+    const data = await axios.delete(url, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
     refetch();
-    console.log(data);
   };
 
   return (

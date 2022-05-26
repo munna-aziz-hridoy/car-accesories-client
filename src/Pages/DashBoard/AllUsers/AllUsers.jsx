@@ -60,6 +60,8 @@ const AllUsers = () => {
   };
 
   const handleDeleteUser = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete");
+    if (!confirmDelete) return;
     const url = `${serverUrl}/deleteOneUser?email=${user?.email}&id=${id}`;
     const data = await axios.delete(url, {
       headers: {

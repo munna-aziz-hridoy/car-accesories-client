@@ -4,7 +4,7 @@ import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 const Blogs = () => {
   return (
     <div className="container mx-auto p-3">
-      <CustomTitle page="Manage All Product" />
+      <CustomTitle page="Blogs" />
       <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-10 capitalize">
         Questions Answer
       </h2>

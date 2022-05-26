@@ -1,39 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import CustomLink from "../CustomLink/CustomLink";
 import demoUserPhoto from "../../Assets/images/profile.png";
-import { ServerUrlContext } from "../..";
-import { useQuery } from "react-query";
 
 const Header = () => {
-  const serverUrl = useContext(ServerUrlContext);
   const [openInfo, setOpenInfo] = useState(false);
   const [user] = useAuthState(auth);
-
-  const { data: userFromDb, isLoading } = useQuery(
-    ["user", serverUrl, user],
-    () => {
-      return fetch(`${serverUrl}/getProfile?email=${user?.email}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }).then((res) => {
-        if (res.status === 401 || res.status === 403) {
-          signOut(auth);
-          localStorage.removeItem("accessToken");
-          return;
-        }
-        return res.json();
-      });
-    }
-  );
-
-  if (isLoading) {
-    return <></>;
-  }
 
   const menuItems = (
     <>
@@ -52,7 +27,7 @@ const Header = () => {
                 className="bg-slate-200 w-[45px] h-[45px] rounded-full p-1 flex justify-center items-center cursor-pointer"
               >
                 <img
-                  src={userFromDb?.image || demoUserPhoto}
+                  src={user?.photoURL || demoUserPhoto}
                   alt=""
                   className="rounded-full"
                 />

@@ -1,4 +1,5 @@
 import React from "react";
+import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 import Footer from "../../Components/Footer/Footer";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import useProducts from "../../hooks/useProducts";
@@ -8,6 +9,7 @@ const AllProducts = () => {
 
   return (
     <>
+      <CustomTitle page="All Products" />
       <div className="container px-3 mx-auto">
         <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-20 capitalize">
           Our All manufacturel products

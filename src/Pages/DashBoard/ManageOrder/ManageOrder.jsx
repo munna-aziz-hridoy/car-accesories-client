@@ -58,7 +58,7 @@ const ManageOrder = () => {
   };
 
   const handleDeleteOrder = async (id) => {
-    const url = `${serverUrl}/deleteOneProduct?id=${id}&email=${user?.email}`;
+    const url = `${serverUrl}/deleteOneOrder?id=${id}&email=${user?.email}`;
     const data = await axios.delete(url, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

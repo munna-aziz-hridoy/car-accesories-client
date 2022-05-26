@@ -16,8 +16,10 @@ import Profile from "../Pages/DashBoard/Profile/Profile";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Payment from "../Pages/Payment/Payment";
+import Portfolio from "../Pages/Portfolio/Portfolio";
 import PurchaseProduct from "../Pages/PurchaseProduct/PurchaseProduct";
 import Register from "../Pages/Register/Register";
+import FourZeroFour from "../Pages/FourZeroFour/FourZeroFour";
 
 const AppRoutes = () => {
   return (
@@ -102,6 +104,8 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="*" element={<FourZeroFour />} />
       </Routes>
     </>
   );

@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import CheckoutForm from "../../Components/CheckoutFrom/CheckoutForm";
+import CustomTitle from "../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../Components/Spinner/Spinner";
 import auth from "../../firebase.init";
 
@@ -43,34 +44,37 @@ const Payment = () => {
   const { product, price, quantity } = order;
 
   return (
-    <div className="container mx-auto px-10">
-      <h1 className="text-center text-3xl font-bold text-accent capitalize my-5">
-        pay for <span className="text-primary">{product}</span>{" "}
-      </h1>
-      <div className="flex flex-col md:flex-row justify-center items-center gap-10 my-16">
-        <div className="card  bg-base-100 shadow-xl w-full">
-          <div className="card-body">
-            <h2 className="card-title text-2xl font-bold my-5 text-primary">
-              {product}
-            </h2>
-            <p className="text-lg font-semibold text-accent capitalize">
-              Price: ${price}
-            </p>
-            <p className="text-lg font-semibold text-accent capitalize">
-              Quantity: {quantity} units
-            </p>
-            <p className="text-lg font-semibold text-accent capitalize">
-              Total Price: ${parseInt(price) * parseInt(quantity)}
-            </p>
+    <>
+      <CustomTitle page="Payment" />{" "}
+      <div className="container mx-auto px-10">
+        <h1 className="text-center text-3xl font-bold text-accent capitalize my-5">
+          pay for <span className="text-primary">{product}</span>{" "}
+        </h1>
+        <div className="flex flex-col md:flex-row justify-center items-center gap-10 my-16">
+          <div className="card  bg-base-100 shadow-xl w-full">
+            <div className="card-body">
+              <h2 className="card-title text-2xl font-bold my-5 text-primary">
+                {product}
+              </h2>
+              <p className="text-lg font-semibold text-accent capitalize">
+                Price: ${price}
+              </p>
+              <p className="text-lg font-semibold text-accent capitalize">
+                Quantity: {quantity} units
+              </p>
+              <p className="text-lg font-semibold text-accent capitalize">
+                Total Price: ${parseInt(price) * parseInt(quantity)}
+              </p>
+            </div>
+          </div>
+          <div className="card  bg-base-100 shadow-xl w-full p-10">
+            <Elements stripe={stripePromise}>
+              <CheckoutForm order={order} />
+            </Elements>
           </div>
         </div>
-        <div className="card  bg-base-100 shadow-xl w-full p-10">
-          <Elements stripe={stripePromise}>
-            <CheckoutForm order={order} />
-          </Elements>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

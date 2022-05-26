@@ -1,16 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import CustomLink from "../CustomLink/CustomLink";
 import demoUserPhoto from "../../Assets/images/profile.png";
+import { ServerUrlContext } from "../..";
+import { useQuery } from "react-query";
 
 const Header = () => {
+  const serverUrl = useContext(ServerUrlContext);
   const [openInfo, setOpenInfo] = useState(false);
   const [user] = useAuthState(auth);
 
-  const profilePhoto = user?.photoURL || demoUserPhoto;
+  const { data: userFromDb, isLoading } = useQuery(
+    ["user", serverUrl, user],
+    () => {
+      return fetch(`${serverUrl}/getProfile?email=${user?.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }).then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          signOut(auth);
+          localStorage.removeItem("accessToken");
+          return;
+        }
+        return res.json();
+      });
+    }
+  );
+
+  if (isLoading) {
+    return <></>;
+  }
 
   const menuItems = (
     <>
@@ -28,7 +51,11 @@ const Header = () => {
                 onClick={() => setOpenInfo(!openInfo)}
                 className="bg-slate-200 w-[45px] h-[45px] rounded-full p-1 flex justify-center items-center cursor-pointer"
               >
-                <img src={profilePhoto} alt="" className="rounded-full" />
+                <img
+                  src={userFromDb?.image || demoUserPhoto}
+                  alt=""
+                  className="rounded-full"
+                />
               </div>
               <div
                 className={`${
@@ -98,25 +125,6 @@ const Header = () => {
             >
               Car Accessories
             </Link>
-            {/* <label
-              htmlFor="dashboard-sidebar"
-              className="btn btn-ghost lg:hidden"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label> */}
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">

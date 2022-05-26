@@ -17,9 +17,7 @@ const ManageAllProducts = () => {
     isLoading,
     refetch,
   } = useQuery(["products"], () => {
-    return fetch("https://sleepy-cove-71214.herokuapp.com/products").then(
-      (res) => res.json()
-    );
+    return fetch("http://localhost:5000/products").then((res) => res.json());
   });
 
   if (isLoading) {
@@ -145,85 +143,3 @@ const ManageAllProducts = () => {
 };
 
 export default ManageAllProducts;
-
-/*
-   <tbody>
-            {products?.map((product, index) => {
-              const {
-                _id,
-                name,
-                price,
-                minOrderQuantity,
-                availableQuantity,
-                image,
-              } = product;
-              return (
-                <tr key={index} class="hover">
-                  <th>{index + 1}</th>
-                  <td>
-                    <div className="flex justify-start items-center gap-3">
-                      <div className="avatar">
-                        <div className="w-8 rounded">
-                          <img
-                            src={image}
-                            alt="Tailwind-CSS-Avatar-component"
-                          />
-                        </div>
-                      </div>
-                      <p>{name}</p>
-                    </div>
-                  </td>
-                  <td>{availableQuantity}</td>
-                  <td>{minOrderQuantity}</td>
-                  <td>{price}</td>
-                  <td>
-                    <div>
-                      <label
-                        htmlFor={`deleteConfirmModal-${index}`}
-                        className="btn bg-red-600 border-red-600
-                                     font-semibold px-2 text-white capitalize rounded-lg"
-                      >
-                        Delete
-                      </label>
-                    //   modal
-                      <div>
-                        <input
-                          type="checkbox"
-                          id={`deleteConfirmModal-${index}`}
-                          className="modal-toggle"
-                        />
-                        <div className="modal modal-bottom sm:modal-middle">
-                          <div className="modal-box">
-                            <label
-                              htmlFor={`deleteConfirmModal-${index}`}
-                              className="btn btn-sm btn-circle absolute right-2 top-2"
-                            >
-                              ✕
-                            </label>
-                            <h3 className="font-bold text-lg mt-8">
-                              You are trying to delete {product}
-                            </h3>
-                            <p className="py-4">
-                              Are you sure you want to delete?
-                            </p>
-                            <div className="modal-action">
-                              <label
-                                onClick={() => handleDeleteProduct(_id)}
-                                htmlFor={`deleteConfirmModal-${index}`}
-                                className="btn bg-red-600 border-red-600
-                                     font-semibold px-2 text-white capitalize rounded-lg"
-                              >
-                                Delete
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    //   modal
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-*/

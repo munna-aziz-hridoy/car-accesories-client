@@ -74,7 +74,7 @@ const PurchaseProduct = () => {
           <label
             onClick={() => setOpenModal(true)}
             htmlFor="purchase-modal"
-            className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary my-5 inline-block"
+            className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary my-5 inline-block cursor-pointer"
           >
             Order Now
           </label>

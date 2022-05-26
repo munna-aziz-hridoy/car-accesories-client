@@ -179,7 +179,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
             <input
               type="submit"
               value="Order Now"
-              className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary mt-8 mb-10"
+              className="text-semibold capitalize bg-primary hover:bg-white px-8 py-3 rounded-lg shadow-lg text-lg text-white hover:text-primary border-2 border-primary mt-8 mb-10 cursor-pointer"
             />
           </form>
         </div>

@@ -4,6 +4,7 @@ import RequireAdmin from "../Components/RequireAdmin/RequireAdmin";
 import RequireAuth from "../Components/RequireAuth/RequireAuth";
 import RequireUser from "../Components/RequireUser/RequireUser";
 import AllProducts from "../Pages/AllProducts/AllProducts";
+import Blogs from "../Pages/Blogs/Blogs";
 import AddProduct from "../Pages/DashBoard/AddProduct/AddProduct";
 import AddReview from "../Pages/DashBoard/AddReview/AddReview";
 import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
@@ -100,6 +101,7 @@ const AppRoutes = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/blogs" element={<Blogs />} />
       </Routes>
     </>
   );

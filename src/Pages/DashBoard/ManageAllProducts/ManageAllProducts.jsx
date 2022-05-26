@@ -17,7 +17,9 @@ const ManageAllProducts = () => {
     isLoading,
     refetch,
   } = useQuery(["products"], () => {
-    return fetch("http://localhost:5000/products").then((res) => res.json());
+    return fetch("https://sleepy-cove-71214.herokuapp.com/products").then(
+      (res) => res.json()
+    );
   });
 
   if (isLoading) {

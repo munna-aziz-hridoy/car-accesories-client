@@ -11,7 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 const queryClient = new QueryClient();
 
 export const ServerUrlContext = React.createContext();
-const serverUrl = "http://localhost:5000";
+const serverUrl = "https://sleepy-cove-71214.herokuapp.com";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

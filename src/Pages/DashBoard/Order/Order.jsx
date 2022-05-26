@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../../Components/Spinner/Spinner";
@@ -39,9 +40,7 @@ const Order = () => {
   }
 
   const handleDeleteOrder = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    if (!confirmDelete) return;
-    const url = `${serverUrl}/deleteProduct/${id}&email=${user?.email}`;
+    const url = `${serverUrl}/deleteOneProduct?id=${id}&email=${user?.email}`;
     const data = await axios.delete(url, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -52,6 +51,7 @@ const Order = () => {
       localStorage.removeItem("accessToken");
       return;
     }
+    toast.warning("Successfully delete order");
     refetch();
   };
 
@@ -87,6 +87,7 @@ const Order = () => {
                 paid,
                 transactionId,
               } = order;
+
               return (
                 <tr key={index} className="hover">
                   <th>{index + 1}</th>
@@ -118,14 +119,49 @@ const Order = () => {
                       >
                         {paid ? "Paid" : "Pay"}
                       </button>
-                      <button
-                        onClick={() => handleDeleteOrder(_id)}
+                      <label
+                        htmlFor={`deleteConfirmModal-${index}`}
                         disabled={paid}
                         className="btn btn-xs bg-red-600 border-red-600
                         font-semibold px-2 text-white capitalize rounded-lg"
                       >
-                        Cancel
-                      </button>
+                        <span>Cancel</span>
+                      </label>
+                      {/* modal */}
+                      <div>
+                        <input
+                          type="checkbox"
+                          id={`deleteConfirmModal-${index}`}
+                          className="modal-toggle"
+                        />
+                        <div className="modal modal-bottom sm:modal-middle">
+                          <div className="modal-box">
+                            <label
+                              htmlFor={`deleteConfirmModal-${index}`}
+                              className="btn btn-sm btn-circle absolute right-2 top-2"
+                            >
+                              ✕
+                            </label>
+                            <h3 className="font-bold text-lg mt-8">
+                              You are trying to delete {product}
+                            </h3>
+                            <p className="py-4">
+                              Are you sure you want to delete?
+                            </p>
+                            <div className="modal-action">
+                              <label
+                                onClick={() => handleDeleteOrder(_id)}
+                                htmlFor={`deleteConfirmModal-${index}`}
+                                className="btn bg-red-600 border-red-600
+                                     font-semibold px-2 text-white capitalize rounded-lg"
+                              >
+                                Delete
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* modal */}
                     </div>
                   </td>
                 </tr>

@@ -1,11 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import RequireAdmin from "../Components/RequireAdmin/RequireAdmin";
 import RequireAuth from "../Components/RequireAuth/RequireAuth";
+import RequireUser from "../Components/RequireUser/RequireUser";
 import AllProducts from "../Pages/AllProducts/AllProducts";
 import AddProduct from "../Pages/DashBoard/AddProduct/AddProduct";
 import AddReview from "../Pages/DashBoard/AddReview/AddReview";
 import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
 import DashBoard from "../Pages/DashBoard/DashBoard";
+import ManageAllProducts from "../Pages/DashBoard/ManageAllProducts/ManageAllProducts";
 import ManageOrder from "../Pages/DashBoard/ManageOrder/ManageOrder";
 import Order from "../Pages/DashBoard/Order/Order";
 import Profile from "../Pages/DashBoard/Profile/Profile";
@@ -30,11 +33,54 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<Profile />} />
-          <Route path="addreview" element={<AddReview />} />
-          <Route path="order" element={<Order />} />
-          <Route path="manageOrder" element={<ManageOrder />} />
-          <Route path="addproduct" element={<AddProduct />} />
-          <Route path="allUsers" element={<AllUsers />} />
+          <Route
+            path="addreview"
+            element={
+              <RequireUser>
+                <AddReview />
+              </RequireUser>
+            }
+          />
+          <Route
+            path="order"
+            element={
+              <RequireUser>
+                <Order />
+              </RequireUser>
+            }
+          />
+          <Route
+            path="manageOrder"
+            element={
+              <RequireAdmin>
+                <ManageOrder />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="addproduct"
+            element={
+              <RequireAdmin>
+                <AddProduct />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="allUsers"
+            element={
+              <RequireAdmin>
+                <AllUsers />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="manageProducts"
+            element={
+              <RequireAdmin>
+                <ManageAllProducts />
+              </RequireAdmin>
+            }
+          />
         </Route>
         <Route
           path="/purchaseItem/:id"

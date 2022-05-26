@@ -57,6 +57,21 @@ const ManageOrder = () => {
     refetch();
   };
 
+  const handleDeleteOrder = async (id) => {
+    const url = `${serverUrl}/deleteOneProduct?id=${id}&email=${user?.email}`;
+    const data = await axios.delete(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    if (data.status === 401 || data.status === 403) {
+      signOut(auth);
+      localStorage.removeItem("accessToken");
+      return;
+    }
+    refetch();
+  };
+
   return (
     <>
       <CustomTitle page="Manage Order" />
@@ -103,7 +118,7 @@ const ManageOrder = () => {
                     )}
                   </td>
                   <td>
-                    <div>
+                    <div className="flex justify-end items-center gap-2">
                       {deliveryStatus ? (
                         <button className="btn-xs  font-semibold px-2 bg-green-600 border-green-600  text-white capitalize rounded-lg disabled:text-accent">
                           Delivered
@@ -118,6 +133,55 @@ const ManageOrder = () => {
                           Ship now
                         </button>
                       )}
+                      <label
+                        htmlFor={`deleteConfirmModal-${index}`}
+                        disabled={paid}
+                        className="btn btn-xs bg-red-600 border-red-600
+                        font-semibold px-2 text-white capitalize rounded-lg"
+                      >
+                        Cancel
+                      </label>
+                      <div>
+                        {/* <label
+                          htmlFor={`deleteConfirmModal-${index}`}
+                          className="btn modal-button"
+                        >
+                          open modal
+                        </label> */}
+
+                        <input
+                          type="checkbox"
+                          id={`deleteConfirmModal-${index}`}
+                          className="modal-toggle"
+                        />
+                        <div className="modal modal-bottom sm:modal-middle">
+                          <div className="modal-box">
+                            <label
+                              htmlFor={`deleteConfirmModal-${index}`}
+                              className="btn btn-sm btn-circle absolute right-2 top-2"
+                            >
+                              ✕
+                            </label>
+                            <h3 className="font-bold text-lg mt-8">
+                              You are trying to delete {product}
+                            </h3>
+                            <p className="py-4">
+                              Are you sure you want to delete?
+                            </p>
+                            <div className="modal-action">
+                              <label
+                                onClick={() => handleDeleteOrder(_id)}
+                                htmlFor={`deleteConfirmModal-${index}`}
+                                className="btn bg-red-600 border-red-600
+                                     font-semibold px-2 text-white capitalize rounded-lg"
+                              >
+                                Confirm Delete
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* modal */}
                     </div>
                   </td>
                 </tr>

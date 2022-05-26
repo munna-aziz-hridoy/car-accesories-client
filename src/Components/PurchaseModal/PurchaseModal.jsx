@@ -11,6 +11,7 @@ const PurchaseModal = ({ setOpenModal, product }) => {
   const serverUrl = useContext(ServerUrlContext);
   const [user] = useAuthState(auth);
   const [errorText, setErrorText] = useState("");
+  const [disabledBtn, setDisabledBtn] = useState(false);
 
   const {
     register,
@@ -27,11 +28,12 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       inputQuantity < parseInt(minOrderQuantity) ||
       inputQuantity > parseInt(availableQuantity)
     ) {
-      return setErrorText(
+      setErrorText(
         `You can order at most ${availableQuantity} units and minimum ${minOrderQuantity} units`
       );
+      return setDisabledBtn(true);
     }
-
+    setDisabledBtn(false);
     const orderedItem = {
       user: user?.displayName,
       email: user?.email,

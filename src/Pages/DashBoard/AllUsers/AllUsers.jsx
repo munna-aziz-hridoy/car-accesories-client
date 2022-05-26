@@ -108,8 +108,8 @@ const AllUsers = () => {
                 <td>{index + 1}</td>
                 <td>
                   <div className="flex justify-start items-center gap-3">
-                    <div class="avatar">
-                      <div class="w-8 rounded">
+                    <div className="avatar">
+                      <div className="w-8 rounded">
                         <img
                           src={userImg}
                           alt="Tailwind-CSS-Avatar-component"

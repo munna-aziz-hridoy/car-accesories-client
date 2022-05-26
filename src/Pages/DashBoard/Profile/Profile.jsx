@@ -8,6 +8,7 @@ import { ServerUrlContext } from "../../..";
 import Spinner from "../../../Components/Spinner/Spinner";
 import UpdateProfileModal from "../../../Components/UpdateProfileModal/UpdateProfileModal";
 import auth from "../../../firebase.init";
+import Order from "../Order/Order";
 
 const Profile = () => {
   const serverurl = useContext(ServerUrlContext);
@@ -38,10 +39,31 @@ const Profile = () => {
     });
   });
 
-  if (isLoading) {
+  const { data: paidOrders, isLoading: isOrdersLoading } = useQuery(
+    ["orders", loggedInUser],
+    () => {
+      return fetch(
+        `${serverurl}/UsersPaidOrders?email=${loggedInUser?.email}&paid=true`,
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      ).then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          signOut(auth);
+          localStorage.removeItem("accessToken");
+          return;
+        }
+        return res.json();
+      });
+    }
+  );
+
+  if (isLoading || isOrdersLoading) {
     return <Spinner />;
   }
-
+  console.log(paidOrders);
   const handleUpdateProfileImage = async (data) => {
     const imgbbAPIkey = "52ad69453d156ba9876338195fd1a8a5";
     const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`;
@@ -162,18 +184,37 @@ const Profile = () => {
                 <th>Order Quantity</th>
                 <th>Total Price</th>
                 <th>Transaction ID</th>
+                <th>Delivery Status</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr className="hover">
-                <th> 1</th>
-                <td>Product</td>
-                <td>Price</td>
-                <td>Order Quantity</td>
-                <td>Total price</td>
-                <td>Transaction ID</td>
-              </tr>
+              {paidOrders?.map((item, index) => {
+                const {
+                  product,
+                  price,
+                  quantity,
+                  deliveryStatus,
+                  transactionId,
+                } = item;
+                return (
+                  <tr className="hover">
+                    <th>{index + 1}</th>
+                    <td>{product}</td>
+                    <td>{price}</td>
+                    <td>{quantity}</td>
+                    <td>{parseInt(price) * parseInt(quantity)}</td>
+                    <td>{transactionId}</td>
+                    <td>
+                      {deliveryStatus ? (
+                        <span className="text-green-600">Delivered</span>
+                      ) : (
+                        <span className="text-orange-600">Pending</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

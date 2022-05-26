@@ -6,12 +6,14 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ServerUrlContext } from "../..";
 import auth from "../../firebase.init";
+import useAdmin from "../../hooks/useAdmin";
+import Spinner from "../Spinner/Spinner";
 
 const PurchaseModal = ({ setOpenModal, product }) => {
   const serverUrl = useContext(ServerUrlContext);
   const [user] = useAuthState(auth);
+  const [isAdmin, loading] = useAdmin(user?.email);
   const [errorText, setErrorText] = useState("");
-  const [disabledBtn, setDisabledBtn] = useState(false);
 
   const {
     register,
@@ -22,6 +24,10 @@ const PurchaseModal = ({ setOpenModal, product }) => {
 
   const { _id, name, price, availableQuantity, minOrderQuantity } = product;
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   const handlePurchaseProduct = async (inputData) => {
     const inputQuantity = parseInt(inputData.quantity);
     if (
@@ -31,9 +37,9 @@ const PurchaseModal = ({ setOpenModal, product }) => {
       setErrorText(
         `You can order at most ${availableQuantity} units and minimum ${minOrderQuantity} units`
       );
-      return setDisabledBtn(true);
+      return;
     }
-    setDisabledBtn(false);
+
     const orderedItem = {
       user: user?.displayName,
       email: user?.email,
@@ -47,7 +53,9 @@ const PurchaseModal = ({ setOpenModal, product }) => {
     };
 
     const url = `${serverUrl}/purchaseProduct?email=${user?.email}`;
-
+    if (isAdmin) {
+      return toast.error("You are admin, you can't purchase a product");
+    }
     const data = await axios.post(url, orderedItem, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

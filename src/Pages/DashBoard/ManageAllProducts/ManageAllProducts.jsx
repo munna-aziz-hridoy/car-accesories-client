@@ -7,7 +7,6 @@ import { ServerUrlContext } from "../../..";
 import CustomTitle from "../../../Components/CustomTitle/CustomTitle";
 import Spinner from "../../../Components/Spinner/Spinner";
 import auth from "../../../firebase.init";
-import useProducts from "../../../hooks/useProducts";
 
 const ManageAllProducts = () => {
   const serverUrl = useContext(ServerUrlContext);

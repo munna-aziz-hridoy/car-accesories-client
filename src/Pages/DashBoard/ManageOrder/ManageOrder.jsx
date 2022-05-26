@@ -107,8 +107,8 @@ const ManageOrder = () => {
                 <tr key={index} className="hover">
                   <th>{index + 1}</th>
                   <td>{product}</td>
-                  <td>{quantity}</td>
-                  <td>{price * parseFloat(quantity)}</td>
+                  <td>{quantity} units</td>
+                  <td>${price * parseFloat(quantity)}</td>
                   <td>{email}</td>
                   <td>
                     {paid ? (

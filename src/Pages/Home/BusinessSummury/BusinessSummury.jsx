@@ -1,3 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPeopleArrowsLeftRight,
+  faMoneyCheckDollar,
+  faFlagCheckered,
+  faScrewdriverWrench,
+} from "@fortawesome/free-solid-svg-icons";
+
 import React from "react";
 import businessImg from "../../../Assets/images/business.jpg";
 
@@ -11,17 +19,21 @@ const BusinessSummury = () => {
         <div className="sm:flex justify-center items-center gap-4">
           <div className=" flex justify-center items-center flex-col gap-10 w-full">
             <div className="w-[285px] h-[285px] bg-white rounded-xl shadow-lg p-3 flex flex-col justify-center items-center">
-              <h2 className="text-3xl md:text-5xl font-bold text-primary">
-                100+
-              </h2>
+              <FontAwesomeIcon
+                className="text-4xl md:text-6xl text-primary my-2"
+                icon={faPeopleArrowsLeftRight}
+              />
+              <h2 className="text-3xl  font-bold text-neutral">100+</h2>
               <p className="text-2xl font-bold capitalize text-neutral mt-5">
                 customer
               </p>
             </div>
             <div className="w-[285px] h-[285px] bg-white rounded-xl shadow-lg p-3 flex flex-col justify-center items-center">
-              <h2 className="text-3xl md:text-5xl font-bold text-primary">
-                120M+
-              </h2>
+              <FontAwesomeIcon
+                className="text-4xl md:text-6xl text-primary my-2"
+                icon={faMoneyCheckDollar}
+              />
+              <h2 className="text-3xl  font-bold text-neutral">120M+</h2>
               <p className="text-2xl font-bold capitalize text-neutral mt-5">
                 Annual revenue
               </p>
@@ -29,17 +41,21 @@ const BusinessSummury = () => {
           </div>
           <div className=" flex justify-center items-center flex-col gap-10 w-full mt-5 sm:mt-0">
             <div className="w-[285px] h-[285px] bg-white rounded-xl shadow-lg p-3 flex flex-col justify-center items-center">
-              <h2 className="text-3xl md:text-5xl font-bold text-primary">
-                33K+
-              </h2>
+              <FontAwesomeIcon
+                className="text-4xl md:text-6xl text-primary my-2"
+                icon={faFlagCheckered}
+              />
+              <h2 className="text-3xl  font-bold text-neutral">33K+</h2>
               <p className="text-2xl font-bold capitalize text-neutral mt-5">
                 Reviews
               </p>
             </div>
             <div className="w-[285px] h-[285px] bg-white rounded-xl shadow-lg p-3 flex flex-col justify-center items-center">
-              <h2 className="text-3xl md:text-5xl font-bold text-primary">
-                50+
-              </h2>
+              <FontAwesomeIcon
+                className="text-4xl md:text-6xl text-primary my-2"
+                icon={faScrewdriverWrench}
+              />
+              <h2 className="text-3xl  font-bold text-neutral">50+</h2>
               <p className="text-2xl font-bold capitalize text-neutral mt-5">
                 tools
               </p>

@@ -18,12 +18,8 @@ const Register = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [user, loading] = useAuthState(auth);
 
-  const [
-    createUserWithEmailAndPassword,
-    signUpUser,
-    signUpLoading,
-    signUpError,
-  ] = useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, , signUpLoading, signUpError] =
+    useCreateUserWithEmailAndPassword(auth);
   const [token] = useToken(user?.email);
 
   const [updateProfile] = useUpdateProfile(auth);

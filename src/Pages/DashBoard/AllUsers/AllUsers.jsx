@@ -1,6 +1,6 @@
 import axios from "axios";
 import { signOut } from "firebase/auth";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
@@ -10,29 +10,28 @@ import Spinner from "../../../Components/Spinner/Spinner";
 import auth from "../../../firebase.init";
 
 const AllUsers = () => {
-  const [allUsers, setAllUsers] = useState([]);
   const [user] = useAuthState(auth);
   const serverUrl = useContext(ServerUrlContext);
 
-  const { data, isLoading, refetch } = useQuery(
-    ["allUsers", serverUrl, user],
-    () => {
-      fetch(`${serverUrl}/allUsers?email=${user?.email}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
-        .then((res) => {
-          if (res.status === 401 || res.status === 403) {
-            signOut(auth);
-            localStorage.removeItem("accessToken");
-            return;
-          }
-          return res.json();
-        })
-        .then((data) => setAllUsers(data));
-    }
-  );
+  const {
+    data: allUsers,
+    isLoading,
+    refetch,
+  } = useQuery(["allUsers", serverUrl, user], () => {
+    return fetch(`${serverUrl}/allUsers?email=${user?.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("accessToken");
+        return;
+      }
+      return res.json();
+    });
+    // .then((data) => setAllUsers(data));
+  });
 
   if (isLoading) {
     return <Spinner />;

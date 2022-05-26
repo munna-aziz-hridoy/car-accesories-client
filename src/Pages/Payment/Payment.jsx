@@ -40,25 +40,27 @@ const Payment = () => {
     return <Spinner />;
   }
 
+  const { product, price, quantity } = order;
+
   return (
-    <div>
+    <div className="container mx-auto px-10">
       <h1 className="text-center text-3xl font-bold text-accent capitalize my-5">
-        pay for <span className="text-primary">{order.product}</span>{" "}
+        pay for <span className="text-primary">{product}</span>{" "}
       </h1>
-      <div className="flex justify-center items-center gap-10 my-16">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-10 my-16">
         <div className="card  bg-base-100 shadow-xl w-full">
           <div className="card-body">
             <h2 className="card-title text-2xl font-bold my-5 text-primary">
-              {order.product}
+              {product}
             </h2>
             <p className="text-lg font-semibold text-accent capitalize">
-              Price: {order.price}
+              Price: ${price}
             </p>
             <p className="text-lg font-semibold text-accent capitalize">
-              2. booking date: bookingDate
+              Quantity: {quantity} units
             </p>
             <p className="text-lg font-semibold text-accent capitalize">
-              2. Appointment fee: price
+              Total Price: ${parseInt(price) * parseInt(quantity)}
             </p>
           </div>
         </div>

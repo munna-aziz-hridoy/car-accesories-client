@@ -8,11 +8,12 @@ import { ServerUrlContext } from "../../..";
 import Spinner from "../../../Components/Spinner/Spinner";
 import UpdateProfileModal from "../../../Components/UpdateProfileModal/UpdateProfileModal";
 import auth from "../../../firebase.init";
-import Order from "../Order/Order";
+import useAdmin from "../../../hooks/useAdmin";
 
 const Profile = () => {
   const serverurl = useContext(ServerUrlContext);
   const [loggedInUser] = useAuthState(auth);
+  const [isAdmin] = useAdmin(loggedInUser?.email);
   const [openModal, setOpenModal] = useState(false);
   const {
     register,
@@ -63,7 +64,7 @@ const Profile = () => {
   if (isLoading || isOrdersLoading) {
     return <Spinner />;
   }
-  console.log(paidOrders);
+
   const handleUpdateProfileImage = async (data) => {
     const imgbbAPIkey = "52ad69453d156ba9876338195fd1a8a5";
     const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`;
@@ -94,10 +95,17 @@ const Profile = () => {
       <div className="hero">
         <div className="hero-content flex-col lg:flex-row gap-10 w-full">
           <div className="w-full lg:w-1/2">
-            <div className="avatar w-full">
-              <div className="w-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={image} alt="" />
+            <div className="w-full relative">
+              <div className="avatar w-full">
+                <div className="w-full rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <img src={image} alt="" />
+                </div>
               </div>
+              {isAdmin && (
+                <div class="badge badge-primary p-1 rounded-lg text-sm font-bold text-white absolute left-0">
+                  Admin
+                </div>
+              )}
             </div>
 
             <form
@@ -170,55 +178,57 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="mt-20">
-        <h2 className="text-2xl font-bold text-neutral my-10 capitalize">
-          Purchase History
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Order Quantity</th>
-                <th>Total Price</th>
-                <th>Transaction ID</th>
-                <th>Delivery Status</th>
-              </tr>
-            </thead>
+      {!isAdmin && (
+        <div className="mt-20">
+          <h2 className="text-2xl font-bold text-neutral my-10 capitalize">
+            Purchase History
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="table w-full">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Order Quantity</th>
+                  <th>Total Price</th>
+                  <th>Transaction ID</th>
+                  <th>Delivery Status</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {paidOrders?.map((item, index) => {
-                const {
-                  product,
-                  price,
-                  quantity,
-                  deliveryStatus,
-                  transactionId,
-                } = item;
-                return (
-                  <tr className="hover">
-                    <th>{index + 1}</th>
-                    <td>{product}</td>
-                    <td>{price}</td>
-                    <td>{quantity}</td>
-                    <td>{parseInt(price) * parseInt(quantity)}</td>
-                    <td>{transactionId}</td>
-                    <td>
-                      {deliveryStatus ? (
-                        <span className="text-green-600">Delivered</span>
-                      ) : (
-                        <span className="text-orange-600">Pending</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+              <tbody>
+                {paidOrders?.map((item, index) => {
+                  const {
+                    product,
+                    price,
+                    quantity,
+                    deliveryStatus,
+                    transactionId,
+                  } = item;
+                  return (
+                    <tr key={index} className="hover">
+                      <th>{index + 1}</th>
+                      <td>{product}</td>
+                      <td>{price}</td>
+                      <td>{quantity}</td>
+                      <td>{parseInt(price) * parseInt(quantity)}</td>
+                      <td>{transactionId}</td>
+                      <td>
+                        {deliveryStatus ? (
+                          <span className="text-green-600">Delivered</span>
+                        ) : (
+                          <span className="text-orange-600">Pending</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

@@ -93,7 +93,7 @@ const Order = () => {
                   <th>{index + 1}</th>
                   <td>{product}</td>
                   <td>${price}</td>
-                  <td>{quantity}</td>
+                  <td>{quantity} units</td>
                   <td>${price * parseInt(quantity)}</td>
                   <td>
                     {deliveryStatus ? (
